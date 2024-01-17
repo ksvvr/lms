@@ -4,7 +4,8 @@
   "description": "Learning Management System with node.js",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon -e js,ejs",
+    "start:prod": "node index.js",
     "test": "jest",
     "prepare": "husky install .husky"
   },
