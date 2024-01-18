@@ -7,23 +7,15 @@
     <meta name="csrf-token" content="<%= csrfToken %>">
     <link rel="stylesheet" href="./css/styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>Signup Page</title>
+    <title>Login Page</title>
 </head>
  
 <body class="">
     <%- include('header.ejs') %>
-    <h1>Sign Up Here...</h1>
+    <h1>Login Here...</h1>
 
-    <form action="/users" method="post">
+    <form action="/session" method="post">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <div class="py-4">
-            <label for="firstName">First Name : </label>
-            <input type="text" class="border" id="firstName" name="firstName" required>
-        </div>
-        <div class="py-4">
-            <label for="lastName">Last Name : </label>
-            <input type="text" class="border" id="lastName" name="lastName" required>
-        </div>
         <div class="py-4">
             <label for="email">Email : </label>
             <input type="email" class="border" id="email" name="email" required>
@@ -33,7 +25,7 @@
             <input type="password" class="border" id="password" name="password" required>
         </div>
         <div class="py-4">
-            <button type="submit" class="bg-lime-500 rounded">Submit</button>
+            <button type="submit" class="bg-lime-500 rounded">Sign In</button>
         </div>
     </form>
     
