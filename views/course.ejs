@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course</title>
+</head>
+<body>
+    <a href="/signout" class="bg-lime-300">Signout</a>
+    <h1>Chapters : Add or Edit</h1>
+    <hr>
+    <form action="/addChapter" method="post">
+        <input class="border-2 ml-2" type="text" placeholder="Chapter Name" name="name" required>
+        <input class="border-2 ml-2" type="text" name="description" required> 
+        <button class=" ml-2" type="submit">Add</button>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <input type="hidden" name="courseId" value="<%= courseId %>">
+    </form>
+    <hr>
+    <table>
+        <tr>
+            <th>
+                S.No
+            </th>
+            <th>
+                Chapter Name
+            </th>
+        </tr>
+        <% for(var i=0; i < chapters.length ;i++){ %>
+            <tr>
+                <td>
+                    <%= chapters[i].id %>
+                </td>
+                <td class="group flex items-center">
+                    <%= chapters[i].name %>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+</body>
+</html>

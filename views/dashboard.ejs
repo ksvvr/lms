@@ -1,13 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 </head>
+
 <body>
     <%- include('header.ejs') %>
-
         <a href="/signout" class="bg-lime-300">Signout</a>
+        <h1>Welcome! <%= userDetail %>
+        </h1>
+        <hr>
+        <form action="/addCourse" method="post">
+            <input class="border-2 ml-2" type="text" placeholder="Course Name" name="name" required>
+            <input class="border-2 ml-2" type="text" name="description" required>
+            <button class=" ml-2" type="submit">Add</button>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        </form>
+        <hr>
+        <table>
+            <tr>
+                <th>
+                    S.No
+                </th>
+                <th>
+                    Course Name
+                </th>
+            </tr>
+            <% for(var i=0; i < courses.length ;i++){ %>
+                <tr onclick="window.location.href=`/course/<%= courses[i].id %>`" style="cursor: pointer;">
+                    <td>
+                      <%= courses[i].id %>
+                    </td>
+                    <td class="group flex items-center">
+                      <%= courses[i].name %>
+                    </td>
+                  </tr>
+                  
+
+                <% } %>
+        </table>
+
 </body>
+
 </html>

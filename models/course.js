@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
 
-    static addCourse ({ name, description, educatorId }) {
+    static addCourse ({ name, description, userId }) {
       return this.create({
         name,
         description,
-        educatorId
+        userId
       })
     }
 

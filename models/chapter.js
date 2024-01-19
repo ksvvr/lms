@@ -18,6 +18,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'chapterId'
       })
     }
+
+    static addChapter ({ name, description, courseId }) {
+      return this.create({
+        name,
+        description,
+        courseId
+      })
+    }
+
+    static getChapters (courseId) {
+      return this.findAll({
+        where: {
+          courseId
+        }
+      })
+    }
   }
   Chapter.init({
     name: DataTypes.STRING,

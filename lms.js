@@ -137,6 +137,26 @@ lms.post(
   }
 )
 
+lms.post(
+  '/addChapter',
+  connectEnsureLogin.ensureLoggedIn(),
+  async function (request, response) {
+    const courseId = request.body.courseId
+    try {
+      await Chapter.addChapter({
+        name: request.body.name,
+        description: request.body.description,
+        courseId: request.body.courseId
+      })
+      return response.redirect(`/course/${courseId}`)
+    } catch (error) {
+      console.log(error)
+      request.flash('error', 'Cannot Add Chapter')
+      return response.redirect(`/course/${courseId}`)
+    }
+  }
+)
+
 lms.get(
   '/dashboard',
   connectEnsureLogin.ensureLoggedIn(),
@@ -144,6 +164,7 @@ lms.get(
     const dt = new Date().toISOString().split('T')[0]
     const allCourses = await Course.getCourses(request.user.id)
     const courses = []
+    const userDetail = request.user.firstName + ' ' + request.user.lastName
 
     await allCourses.forEach((i) => {
       courses.push(i)
@@ -151,6 +172,7 @@ lms.get(
     if (request.accepts('html')) {
       response.render('dashboard.ejs', {
         courses,
+        userDetail,
         csrfToken: request.csrfToken()
       })
     } else {
@@ -187,5 +209,20 @@ lms.get('/login', (request, response) => {
     csrfToken: request.csrfToken()
   })
 })
+
+lms.get('/course/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    const allChapters = await Chapter.getChapters(request.params.id)
+    const chapters = []
+    await allChapters.forEach((i) => {
+      chapters.push(i)
+    })
+    response.render('course', {
+      chapters,
+      courseId: request.params.id,
+      csrfToken: request.csrfToken()
+    })
+  })
 
 module.exports = lms
