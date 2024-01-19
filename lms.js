@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const { User } = require('./models')
+const { User, Course, Chapter, Page } = require('./models')
 const express = require('express')
 const csrf = require('tiny-csrf')
 const lms = express()
@@ -80,7 +80,12 @@ passport.deserializeUser((id, done) => {
 })
 
 lms.get('/', async (request, response) => {
-  response.render('index.ejs')
+  if (request.isAuthenticated()) {
+    return response.redirect('/dashboard')
+  }
+  response.render('index', {
+    csrfToken: request.csrfToken()
+  })
 })
 
 lms.get('/signup', function (request, response) {
@@ -104,13 +109,83 @@ lms.post('/users', async function (request, response) {
       if (err) {
         console.log(err)
       }
-      response.redirect('/todos')
+      response.redirect('/dashboard')
     })
   } catch (error) {
     request.flash('error', 'FirstName & E-Mail cannot be empty!')
     console.log(error)
     response.redirect('/signup')
   }
+})
+
+lms.post(
+  '/addCourse',
+  connectEnsureLogin.ensureLoggedIn(),
+  async function (request, response) {
+    try {
+      await Course.addCourse({
+        name: request.body.name,
+        description: request.body.description,
+        userId: request.user.id
+      })
+      return response.redirect('/dashboard')
+    } catch (error) {
+      console.log(error)
+      request.flash('error', 'Course Name Needed')
+      return response.redirect('/dashboard')
+    }
+  }
+)
+
+lms.get(
+  '/dashboard',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    const dt = new Date().toISOString().split('T')[0]
+    const allCourses = await Course.getCourses(request.user.id)
+    const courses = []
+
+    await allCourses.forEach((i) => {
+      courses.push(i)
+    })
+    if (request.accepts('html')) {
+      response.render('dashboard.ejs', {
+        courses,
+        csrfToken: request.csrfToken()
+      })
+    } else {
+      response.json({
+        courses
+      })
+    }
+  }
+)
+
+lms.get('/signout', (request, response, next) => {
+  request.logout((err) => {
+    if (err) {
+      return next(err)
+    }
+    response.redirect('/')
+  })
+})
+
+lms.post(
+  '/session',
+  passport.authenticate('local', {
+    failureRedirect: '/login',
+    failureFlash: true
+  }),
+  function (request, response) {
+    console.log(request.user)
+    response.redirect('/dashboard')
+  }
+)
+
+lms.get('/login', (request, response) => {
+  response.render('login', {
+    csrfToken: request.csrfToken()
+  })
 })
 
 module.exports = lms
