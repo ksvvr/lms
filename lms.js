@@ -27,6 +27,8 @@ lms.use(express.static(path.join(__dirname, 'public')))
 lms.use(
   session({
     secret: 'my-super-secret-key-21728172615261562',
+    resave: false,
+    saveUninitialized: false,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000
     }
