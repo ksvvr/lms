@@ -181,6 +181,52 @@ lms.get(
   '/dashboard',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+    if (request.user.isEducator) {
+      response.redirect('/educator-dashboard'
+      )
+    } else {
+      response.redirect('/student-dashboard'
+      )
+    }
+  }
+)
+
+lms.get(
+  '/educator-dashboard',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    if (!request.user.isEducator) {
+      return response.redirect('/dashboard')
+    }
+    const dt = new Date().toISOString().split('T')[0]
+    const allCourses = await Course.getCourses(request.user.id)
+    const courses = []
+    const userDetail = request.user.firstName + ' ' + request.user.lastName
+
+    await allCourses.forEach((i) => {
+      courses.push(i)
+    })
+    if (request.accepts('html')) {
+      response.render('dashboard.ejs', {
+        courses,
+        userDetail,
+        csrfToken: request.csrfToken()
+      })
+    } else {
+      response.json({
+        courses
+      })
+    }
+  }
+)
+
+lms.get(
+  '/student-dashboard',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    if (request.user.isEducator) {
+      return response.redirect('/dashboard')
+    }
     const dt = new Date().toISOString().split('T')[0]
     const allCourses = await Course.getCourses(request.user.id)
     const courses = []
