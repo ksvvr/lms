@@ -15,6 +15,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'chapterId'
       })
     }
+
+    static addPage ({ title, content, chapterId }) {
+      return this.create({
+        title,
+        content,
+        chapterId
+      })
+    }
+
+    static getPages (chapterId) {
+      return this.findAll({
+        where: {
+          chapterId
+        }
+      })
+    }
   }
   Page.init({
     title: {
@@ -22,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: true,
-        len: 10
+        len: 5
       }
     },
     content: DataTypes.TEXT,

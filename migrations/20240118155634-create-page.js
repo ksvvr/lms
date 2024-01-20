@@ -15,9 +15,6 @@ module.exports = {
       content: {
         type: Sequelize.TEXT
       },
-      chapterId: {
-        type: Sequelize.INTEGER
-      },
       order: {
         type: Sequelize.INTEGER
       },

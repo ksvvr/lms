@@ -15,9 +15,6 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      educatorId: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

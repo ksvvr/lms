@@ -30,7 +30,7 @@
                 </th>
             </tr>
             <% for(var i=0; i < courses.length ;i++){ %>
-                <tr onclick="window.location.href=`/course/<%= courses[i].id %>`" style="cursor: pointer;">
+                <tr onclick="window.open('/course/<%= courses[i].id %>', '_blank');" style="cursor: pointer;">
                     <td>
                       <%= courses[i].id %>
                     </td>

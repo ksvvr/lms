@@ -157,6 +157,26 @@ lms.post(
   }
 )
 
+lms.post(
+  '/addPage',
+  connectEnsureLogin.ensureLoggedIn(),
+  async function (request, response) {
+    const chapterId = request.body.chapterId
+    try {
+      await Page.addPage({
+        title: request.body.title,
+        content: request.body.content,
+        chapterId: request.body.chapterId
+      })
+      return response.redirect(`/chapter/${chapterId}`)
+    } catch (error) {
+      console.log(error)
+      request.flash('error', 'Cannot Add Page')
+      return response.redirect(`/chapter/${chapterId}`)
+    }
+  }
+)
+
 lms.get(
   '/dashboard',
   connectEnsureLogin.ensureLoggedIn(),
@@ -221,6 +241,21 @@ lms.get('/course/:id',
     response.render('course', {
       chapters,
       courseId: request.params.id,
+      csrfToken: request.csrfToken()
+    })
+  })
+
+lms.get('/chapter/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    const allPages = await Page.getPages(request.params.id)
+    const pages = []
+    await allPages.forEach((i) => {
+      pages.push(i)
+    })
+    response.render('chapter', {
+      pages,
+      chapterId: request.params.id,
       csrfToken: request.csrfToken()
     })
   })
