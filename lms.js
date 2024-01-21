@@ -238,7 +238,7 @@ lms.get(
       courses.push(i)
     })
     if (request.accepts('html')) {
-      response.render('dashboard.ejs', {
+      response.render('studentdashboard.ejs', {
         courses,
         userDetail,
         csrfToken: request.csrfToken()
