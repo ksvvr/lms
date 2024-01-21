@@ -12,7 +12,28 @@
     <a href="/signout" class="bg-lime-300">Signout</a>
     <h1>Welcome! <%= userDetail %></h1>
     <hr>
-    
+    <h3>You can enroll in the below courses...</h3>
+    <p>Click on any course below to view details...</p>
+    <table>
+        <tr>
+            <th>
+                S.No
+            </th>
+            <th>
+                Course Name
+            </th>
+        </tr>
+        <% for(var i=0; i < courses.length ;i++){ %>
+            <tr onclick="window.open('/courses/<%= courses[i].id %>', '_blank');" style="cursor: pointer;">
+                <td>
+                  <%= courses[i].id %>
+                </td>
+                <td class="group flex items-center">
+                  <%= courses[i].name %>
+                </td>
+              </tr>           
+        <% } %>
+    </table>
 </body>
-
+ 
 </html>

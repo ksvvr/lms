@@ -40,8 +40,8 @@ lms.use(function (request, response, next) {
   next()
 })
 
-lms.use(passport.session())
 lms.use(passport.initialize())
+lms.use(passport.session())
 
 passport.use(
   new LocalStrategy(
@@ -229,8 +229,7 @@ lms.get(
     if (request.user.isEducator) {
       return response.redirect('/dashboard')
     }
-    const dt = new Date().toISOString().split('T')[0]
-    const allCourses = await Course.getCourses(request.user.id)
+    const allCourses = await Course.getAllCourses()
     const courses = []
     const userDetail = request.user.firstName + ' ' + request.user.lastName
 
@@ -293,6 +292,23 @@ lms.get('/course/:id',
     })
   })
 
+lms.get('/courses/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    const allChapters = await Chapter.getChapters(request.params.id)
+    const chapters = []
+    const course = await Course.getCourse(request.params.id)
+    await allChapters.forEach((i) => {
+      chapters.push(i)
+    })
+    response.render('courses', {
+      course,
+      chapters,
+      courseId: request.params.id,
+      csrfToken: request.csrfToken()
+    })
+  })
+
 lms.get('/chapter/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
@@ -306,6 +322,27 @@ lms.get('/chapter/:id',
       chapterId: request.params.id,
       csrfToken: request.csrfToken()
     })
+  })
+
+lms.get('/chapters/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    const allPages = await Page.getPages(request.params.id)
+    const pages = []
+    await allPages.forEach((i) => {
+      pages.push(i)
+    })
+    response.render('chapters', {
+      pages,
+      chapterId: request.params.id,
+      csrfToken: request.csrfToken()
+    })
+  })
+
+lms.get('/enroll/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    console.log(request, response)
   })
 
 module.exports = lms

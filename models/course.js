@@ -35,6 +35,18 @@ module.exports = (sequelize, DataTypes) => {
       })
     }
 
+    static getAllCourses () {
+      return this.findAll()
+    }
+
+    static getCourse (id) {
+      return this.findAll({
+        where: {
+          id
+        }
+      })
+    }
+
     static async remove (id, userId) {
       return this.destroy({
         where: {

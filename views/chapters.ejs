@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter</title>
+</head>
+<body>
+    <a href="/signout" class="bg-lime-300">Signout</a>
+    <a href="/dashboard" class="bg-lime-300">Home</a>
+    <p onclick="window.open('/chapters/<%= chapterId %>', '_self');"><a>Back to Chapters</a></p>
+    <h1>Pages</h1>
+    <hr>
+    <table>
+        <tr>
+            <th>
+                S.No
+            </th>
+            <th>
+                Page
+            </th>
+        </tr>
+        <% for(var i=0; i < pages.length ;i++){ %>
+            <tr>
+                <td>
+                    <%= pages[i].id %>
+                </td>
+                <td class="group flex items-center">
+                    <%= pages[i].title %>
+                </td>
+            </tr>
+        <% } %>
+    </table>
+</body>
+</html>
