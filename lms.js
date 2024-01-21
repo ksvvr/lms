@@ -99,13 +99,19 @@ lms.get('/signup', function (request, response) {
 lms.post('/users', async function (request, response) {
   const hashedPwd = await bcrypt.hash(request.body.password, saltRounds)
   console.log(hashedPwd)
+  let isEducator = false
+
+  if (request.body.isEducator === 'true') {
+    isEducator = true
+  }
 
   try {
     const user = await User.create({
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       email: request.body.email,
-      password: hashedPwd
+      password: hashedPwd,
+      isEducator
     })
     request.login(user, (err) => {
       if (err) {
