@@ -280,6 +280,10 @@ lms.get('/login', (request, response) => {
 lms.get('/course/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+    if (!request.user.isEducator) {
+      const parameterr = request.params.id
+      return response.redirect(`/courses/${parameterr}`)
+    }
     const allChapters = await Chapter.getChapters(request.params.id)
     const chapters = []
     await allChapters.forEach((i) => {
@@ -312,6 +316,10 @@ lms.get('/courses/:id',
 lms.get('/chapter/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+    if (!request.user.isEducator) {
+      const parameterr = request.params.id
+      return response.redirect(`/chapters/${parameterr}`)
+    }
     const allPages = await Page.getPages(request.params.id)
     const pages = []
     await allPages.forEach((i) => {
