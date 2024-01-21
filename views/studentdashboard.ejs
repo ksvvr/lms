@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="text-center"> 
     <%- include('header.ejs') %>
     <a href="/signout" class="bg-lime-300">Signout</a>
     <h1>Welcome! <%= userDetail %></h1>
