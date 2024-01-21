@@ -14,7 +14,7 @@
     <h1>Add or Edit : Chapters</h1>
     <form action="/addChapter" method="post">
         <input class="border-2 ml-2" type="text" placeholder="Chapter Name" name="name" required>
-        <input class="border-2 ml-2" type="text" name="description" required> 
+        <input class="border-2 ml-2" type="text" placeholder="Description" name="description" required> 
         <button class="bg-lime-300 ml-2" type="submit">Add</button>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input type="hidden" name="courseId" value="<%= courseId %>">
