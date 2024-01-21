@@ -11,21 +11,21 @@
 <body class="text-center">
     <%- include('header.ejs') %>
         <a href="/signout" class="bg-lime-300">Signout</a>
-        <h1>Welcome! <%= userDetail %>
+        <h1 class="text-xl font-bold">Welcome! <%= userDetail %>
         </h1>
         <hr>
         <h1>Add Course Here...</h1>
         <form action="/addCourse" method="post">
             <input class="border-2 ml-2" type="text" placeholder="Course Name" name="name" required>
             <input class="border-2 ml-2" type="text" name="description" required>
-            <button class=" ml-2" type="submit">Add</button>
+            <button class="bg-lime-300 ml-2" type="submit">Add</button>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         </form>
         <hr class="mt-2">
         <table>
             <tr>
                 <th>
-                    S.No
+                    Course.No
                 </th>
                 <th>
                     Course Name
@@ -39,10 +39,8 @@
                     <td class="group flex items-center">
                       <%= courses[i].name %>
                     </td>
-                  </tr>
-                  
-
-                <% } %>
+                  </tr>                
+            <% } %>
         </table>
 
 </body>
