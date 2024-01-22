@@ -20,6 +20,30 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE'
       })
     }
+
+    static newEnroll ({ userId, courseId }) {
+      return this.create({
+        userId,
+        courseId
+      })
+    }
+
+    static deEnroll ({ userId, courseId }) {
+      return this.destroy({
+        where: {
+          userId,
+          courseId
+        }
+      })
+    }
+
+    static getCourses (userId) {
+      return this.findAll({
+        where: {
+          userId
+        }
+      })
+    }
   }
   Enrollment.init({
     userId: DataTypes.INTEGER,

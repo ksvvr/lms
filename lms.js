@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const { User, Course, Chapter, Page } = require('./models')
+const { User, Course, Chapter, Page, Enrollment, Completion } = require('./models')
 const express = require('express')
 const csrf = require('tiny-csrf')
 const lms = express()
@@ -272,7 +272,7 @@ lms.post(
     failureFlash: true
   }),
   function (request, response) {
-    console.log(request.user)
+    // console.log(request.user)
     response.redirect('/dashboard')
   }
 )
@@ -308,11 +308,18 @@ lms.get('/courses/:id',
     const allChapters = await Chapter.getChapters(request.params.id)
     const chapters = []
     const course = await Course.getCourse(request.params.id)
+    const status = await Enrollment.findOne({
+      where: {
+        userId: request.user.id,
+        courseId: request.params.id
+      }
+    })
     await allChapters.forEach((i) => {
       chapters.push(i)
     })
     response.render('courses', {
       course,
+      status,
       chapters,
       courseId: request.params.id,
       csrfToken: request.csrfToken()
@@ -356,7 +363,51 @@ lms.get('/chapters/:id',
 lms.get('/enroll/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    console.log(request, response)
+    if (request.user.isEducator) {
+      return response.redirect('/dashboard')
+    }
+    const user = request.user.id
+    const course = request.params.id
+    if (await Enrollment.findOne({
+      where: {
+        userId: user,
+        courseId: course
+      }
+    }) != null) {
+      request.flash('error', 'Already enrolled in the course!')
+      return response.redirect('/mycourses')
+    }
+    try {
+      await Enrollment.newEnroll({
+        userId: user,
+        courseId: course
+      })
+      return response.redirect('/mycourses')
+    } catch (error) {
+      console.log(error)
+      request.flash('error', 'Cannot Enroll in the Course, Try Later...')
+      return response.redirect('/mycourses')
+    }
+  })
+
+lms.get('/mycourses',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    if (request.user.isEducator) {
+      return response.redirect('/dashboard')
+    }
+    const coursess = Object.values(await Enrollment.getCourses(request.user.id))
+    const courses = []
+    for (const enrollment of coursess) {
+      console.log(enrollment.dataValues.courseId)
+      const course = await Course.findByPk(enrollment.dataValues.courseId)
+      courses.push(course)
+    }
+    console.log(courses)
+    return response.render('mycourses', {
+      courses,
+      csrfToken: request.csrfToken()
+    })
   })
 
 module.exports = lms

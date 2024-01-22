@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>My Courses</title>
 </head>
-
-<body class="text-center"> 
-    <%- include('header.ejs') %>
+<body>
+    <br>
     <a href="/signout" class="bg-lime-300">Signout</a>
-    <a href="/mycourses" class="bg-lime-300">My Courses</a>
-    <h1 class="text-xl font-bold">Welcome! <%= userDetail %></h1>
-    <hr>
-    <h3>You can enroll in the below courses...</h3>
-    <p>Click on any course below to view details...</p>
+    <a href="/dashboard" class="bg-lime-300">Home</a>
+    <br>
+    <%- include('notifications.ejs') %>
+    <br>
+    <h3>Your Courses...</h3>
+    <br>
     <table>
         <tr>
             <th>
@@ -37,5 +35,4 @@
         <% } %>
     </table>
 </body>
- 
 </html>

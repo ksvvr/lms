@@ -11,6 +11,9 @@
     <a href="/signout" class="bg-lime-300">Signout</a>
     <a href="/dashboard" class="bg-lime-300">Home</a>
     <h1 class="text-3xl font-bold"><%= course[0].name %></h1>
+    <% if(status === null){ %>
+        <a class="bg-lime-300" href="/enroll/<%= course[0].id %>">Enroll</a>
+    <% } %>
     <h3>Chapters</h3>
     <p>(Click on below Chapters to view Pages...)</p>
     <hr>
