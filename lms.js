@@ -473,4 +473,38 @@ lms.post('/markAsComplete/:id',
   }
 )
 
+lms.get('/changepassword', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
+  res.render('changepassword', {
+    csrfToken: req.csrfToken()
+  })
+})
+
+lms.post('/changepassword', connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
+  try {
+    const userId = req.user.id
+    const { currentPassword, newPassword, confirmPassword } = req.body
+
+    const user = await User.findByPk(userId)
+    if (!user || !(await user.comparePassword(currentPassword))) {
+      req.flash('error', 'Incorrect current password')
+      return res.redirect('/changepassword')
+    }
+
+    if (newPassword !== confirmPassword) {
+      req.flash('error', 'New password and confirm password do not match')
+      return res.redirect('/changepassword')
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10)
+    await User.update({ password: hashedPassword }, { where: { id: req.user.id } })
+
+    req.flash('success', 'Password changed successfully')
+    res.redirect('/dashboard')
+  } catch (error) {
+    console.error('Error changing password:', error)
+    req.flash('error', 'Error changing password')
+    res.redirect('/changepassword')
+  }
+})
+
 module.exports = lms

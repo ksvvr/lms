@@ -1,4 +1,5 @@
 'use strict'
+const bcrypt = require('bcrypt')
 const {
   Model
 } = require('sequelize')
@@ -14,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId'
       })
       // define association here
+    }
+
+    async comparePassword (password) {
+      return bcrypt.compare(password, this.password)
     }
   }
   User.init(
