@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       })
     }
+
+    static getPage (id) {
+      return this.findByPk(id)
+    }
   }
   Page.init({
     title: {

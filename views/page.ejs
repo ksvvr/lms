@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <br>
+    <a href="/signout" class="bg-lime-300">Signout</a>
+    <a href="/dashboard" class="bg-lime-300">Home</a>
+    <hr>
+    <% if(!isComplete) { %>
+        <form action="/markAsComplete/<%= page.id %>" method="post">
+            <input type="hidden" name="courseId" value="<%= courseId %>">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="bg-lime-300">Mark As Complete</button>
+        </form>
+    <% } else { %>
+        Page Read Already
+    <% } %>
+    <hr>
+    <h1><%= page.title %></h1>
+    <hr>
+    <p><%= page.content %></p>
+</body>
+</html>

@@ -10,7 +10,7 @@
     <br>
     <a href="/signout" class="bg-lime-300">Signout</a>
     <a href="/dashboard" class="bg-lime-300">Home</a>
-    <!--p onclick="window.open('/chapters/<%= chapterId %>', '_self');"><a>Back to Chapters</a></p-->
+    <!--p onclick="window.open('/chapters/<%= chapterId %>', '_self');"><a>Back to Chapters</a></p--> 
     <h1>Pages</h1>
     <hr>
     <table>
@@ -22,8 +22,8 @@
                 Page
             </th>
         </tr>
-        <% for(var i=0; i < pages.length ;i++){ %>
-            <tr>
+        <% for(var i=0; i < pages.length ;i++){ %> 
+            <tr onclick="window.open('/pages/<%= pages[i].id %>?courseId=<%= courseId %>', '_blank');" style="cursor: pointer;">
                 <td>
                     <%= pages[i].id %>
                 </td>

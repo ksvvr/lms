@@ -29,7 +29,7 @@
             </th>
         </tr>
         <% for(var i=0; i < chapters.length ;i++){ %>
-            <tr onclick="window.open('/chapters/<%= chapters[i].id %>', '_blank');" style="cursor: pointer;">
+            <tr onclick="window.open('/chapters/<%= chapters[i].id %>?courseId=<%= courseId %>', '_blank');" style="cursor: pointer;">
                 <td>
                   <%= chapters[i].id %>
                 </td>

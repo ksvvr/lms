@@ -302,30 +302,6 @@ lms.get('/course/:id',
     })
   })
 
-lms.get('/courses/:id',
-  connectEnsureLogin.ensureLoggedIn(),
-  async (request, response) => {
-    const allChapters = await Chapter.getChapters(request.params.id)
-    const chapters = []
-    const course = await Course.getCourse(request.params.id)
-    const status = await Enrollment.findOne({
-      where: {
-        userId: request.user.id,
-        courseId: request.params.id
-      }
-    })
-    await allChapters.forEach((i) => {
-      chapters.push(i)
-    })
-    response.render('courses', {
-      course,
-      status,
-      chapters,
-      courseId: request.params.id,
-      csrfToken: request.csrfToken()
-    })
-  })
-
 lms.get('/chapter/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
@@ -339,21 +315,6 @@ lms.get('/chapter/:id',
       pages.push(i)
     })
     response.render('chapter', {
-      pages,
-      chapterId: request.params.id,
-      csrfToken: request.csrfToken()
-    })
-  })
-
-lms.get('/chapters/:id',
-  connectEnsureLogin.ensureLoggedIn(),
-  async (request, response) => {
-    const allPages = await Page.getPages(request.params.id)
-    const pages = []
-    await allPages.forEach((i) => {
-      pages.push(i)
-    })
-    response.render('chapters', {
       pages,
       chapterId: request.params.id,
       csrfToken: request.csrfToken()
@@ -403,11 +364,113 @@ lms.get('/mycourses',
       const course = await Course.findByPk(enrollment.dataValues.courseId)
       courses.push(course)
     }
-    console.log(courses)
+    // console.log(courses)
     return response.render('mycourses', {
       courses,
       csrfToken: request.csrfToken()
     })
   })
+
+lms.get('/courses/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    const allChapters = await Chapter.getChapters(request.params.id)
+    const chapters = []
+    const course = await Course.getCourse(request.params.id)
+    const status = await Enrollment.findOne({
+      where: {
+        userId: request.user.id,
+        courseId: request.params.id
+      }
+    })
+    await allChapters.forEach((i) => {
+      chapters.push(i)
+    })
+    response.render('courses', {
+      course,
+      status,
+      chapters,
+      courseId: request.params.id,
+      csrfToken: request.csrfToken()
+    })
+  })
+
+lms.get('/chapters/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    const allPages = await Page.getPages(request.params.id)
+    const pages = []
+    await allPages.forEach((i) => {
+      pages.push(i)
+    })
+    response.render('chapters', {
+      pages,
+      courseId: request.query.courseId,
+      chapterId: request.params.id,
+      csrfToken: request.csrfToken()
+    })
+  })
+
+lms.get('/pages/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    const page = await Page.getPage(request.params.id)
+    const courseId = request.query.courseId
+    if (await Enrollment.findOne({
+      where: {
+        userId: request.user.id,
+        courseId
+      }
+    }) !== null) {
+      let isComplete = false
+      if (await Completion.findOne({
+        where: {
+          userId: request.user.id,
+          pageId: page.id
+        }
+      }) !== null) {
+        isComplete = true
+      }
+      return response.render('page', {
+        page,
+        courseId,
+        isComplete,
+        csrfToken: request.csrfToken()
+      })
+    } else {
+      request.flash('error', 'You have to enroll to view the pages...')
+      return response.redirect('/mycourses')
+    }
+  }
+)
+
+lms.post('/markAsComplete/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (request, response) => {
+    try {
+      const pageId = request.params.id
+      const userId = request.user.id
+      const enrollment = await Enrollment.findOne({
+        where: {
+          userId,
+          courseId: request.body.courseId
+        }
+      })
+      if (!enrollment) {
+        request.flash('error', 'You must be enrolled in the course to mark pages as complete.')
+        return response.redirect('/mycourses')
+      }
+      await Completion.create({
+        userId,
+        pageId
+      })
+      response.status(200).send('Page marked as complete, Close this Tab!')
+    } catch (error) {
+      console.error('Error marking page as complete:', error)
+      request.flash('error', 'Error marking page as complete.')
+      response.redirect('/mycourses')
+    }
+  }
+)
 
 module.exports = lms
