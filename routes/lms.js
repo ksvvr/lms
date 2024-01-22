@@ -22,7 +22,7 @@ lms.use(express.urlencoded({ extended: false }))
 lms.use(cookieParser('shh!some secret string,I am King'))
 lms.use(csrf('abcdefghijklmnopqrstuvwxyz123456', ['POST', 'PUT', 'DELETE']))
 lms.set('view engine', 'ejs')
-lms.use(express.static(path.join(__dirname, 'public')))
+lms.use(express.static(path.join(__dirname, '../public')))
 
 lms.use(
   session({
@@ -495,7 +495,7 @@ lms.post('/changepassword', connectEnsureLogin.ensureLoggedIn(), async (req, res
       return res.redirect('/changepassword')
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10)
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
     await User.update({ password: hashedPassword }, { where: { id: req.user.id } })
 
     req.flash('success', 'Password changed successfully')
