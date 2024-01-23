@@ -13,11 +13,11 @@
     <a href="/signout" class="bg-lime-300">Signout</a>
     <a href="/changepassword" class="bg-lime-300">Change Password</a>
     <a href="/mycourses" class="bg-lime-300">My Courses</a>
-    <h1 class="text-xl font-bold">Welcome! <%= userDetail %></h1>
+    <h1 class="text-xl font-bold mt-2">Welcome! <%= userDetail %></h1>
     <hr>
     <h3>You can enroll in the below courses...</h3>
     <p>Click on any course below to view details...</p>
-    <table>
+    <table class="mx-auto">
         <tr>
             <th>
                 Course.No
@@ -31,7 +31,7 @@
                 <td>
                   <%= courses[i].id %>
                 </td>
-                <td class="group flex items-center">
+                <td>
                   <%= courses[i].name %>
                 </td>
               </tr>           

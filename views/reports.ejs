@@ -9,13 +9,13 @@
 </head>
 
 <body class="text-center">
-    <br>
+    <%- include('header.ejs') %>
     <a href="/signout" class="bg-lime-300">Signout</a>
     <a href="/dashboard" class="bg-lime-300">Home</a>
     <h2 class="font-bold text-3xl mt-2">Your Courses Report</h2>
-    <br>
+    
     <%- include('notifications.ejs') %>
-    <br>
+   
     <% courseReports.forEach(courseReport=> { %>
         <div>
             <h3 class="font-bold mt-4">

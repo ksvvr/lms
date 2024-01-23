@@ -10,10 +10,12 @@
     <br>
     <a href="/signout" class="bg-lime-300">Signout</a>
     <a href="/dashboard" class="bg-lime-300">Home</a>
-    <!--p onclick="window.open('/chapters/<%= chapterId %>', '_self');"><a>Back to Chapters</a></p--> 
-    <h1>Pages</h1>
+    <a href="/mycourses" class="bg-lime-300">My Courses</a>
+    <!--p onclick="window.open('/chapters/<%= chapterId %>', '_self');"><a>Back to Chapters</a></p-->
+    <hr class="mt-4">
+    <h1 class="font-bold text-xl">Pages</h1>
     <hr>
-    <table>
+    <table class="mx-auto">
         <tr>
             <th>
                 P.No
@@ -27,11 +29,12 @@
                 <td>
                     <%= pages[i].id %>
                 </td>
-                <td class="group flex items-center">
+                <td>
                     <%= pages[i].title %>
                 </td>
             </tr>
         <% } %>
     </table>
+    <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>
 </body>
 </html>

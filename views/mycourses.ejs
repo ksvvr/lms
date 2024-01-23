@@ -6,16 +6,17 @@
     <title>My Courses</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <br>
+<body class="text-center">
+    <%- include('header.ejs') %>
     <a href="/signout" class="bg-lime-300">Signout</a>
     <a href="/dashboard" class="bg-lime-300">Home</a>
     <br>
     <%- include('notifications.ejs') %>
     <br>
-    <h3>Your Courses...</h3>
+    <h3 class="font-bold">Your Courses...</h3>
+    <p>(Click on below courses to view chapters!)</p>
     <br>
-    <table>
+    <table class="mx-auto">
         <tr>
             <th>
                 Course.No

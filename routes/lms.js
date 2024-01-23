@@ -464,7 +464,7 @@ lms.post('/markAsComplete/:id',
         userId,
         pageId
       })
-      response.status(200).send('Page marked as complete, Close this Tab!')
+      response.status(200).send('Page marked as complete, Close this Tab!<p class="mt-2 mb-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
     } catch (error) {
       console.error('Error marking page as complete:', error)
       request.flash('error', 'Error marking page as complete.')

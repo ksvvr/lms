@@ -7,11 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-center">
-    <br>
+    <%- include('header.ejs') %>
     <a href="/signout" class="bg-lime-300">Signout</a>
     <a href="/dashboard" class="bg-lime-300">Home</a>
     <!--p onclick="window.open('/chapter/<%= chapterId %>', '_self');"><a>Back to Chapters</a></p-->
-    <h1>Pages : Add or Edit</h1>
+    <h1 class="font-bold">Add Pages</h1>
     <hr class="mt-2 mb-2">
     <form action="/addPage" method="post" class="text-center">
         <input class="border-2 ml-2" type="text" placeholder="Page Title" name="title" required>
@@ -21,7 +21,7 @@
         <input type="hidden" name="chapterId" value="<%= chapterId %>">
     </form>
     <hr class="mt-2">
-    <table>
+    <table class="mx-auto">
         <tr>
             <th>
                 P.No
@@ -41,5 +41,6 @@
             </tr>
         <% } %>
     </table>
+    <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>
 </body>
 </html>
