@@ -507,4 +507,35 @@ lms.post('/changepassword', connectEnsureLogin.ensureLoggedIn(), async (req, res
   }
 })
 
+lms.get('/educator/reports', connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
+  try {
+    if (!req.user.isEducator) {
+      res.redirect('/dashboard')
+    }
+    const userId = req.user.id
+    const courses = await Course.findAll({
+      where: { userId },
+      include: [
+        {
+          model: Enrollment,
+          attributes: [['courseId', 'courseid']]
+        }
+      ]
+    })
+
+    const courseReports = courses.map(course => ({
+      courseId: course.id,
+      courseName: course.name,
+      enrollmentCount: course.Enrollments.length
+    }))
+
+    courseReports.sort((a, b) => b.enrollmentCount - a.enrollmentCount)
+
+    res.render('reports', { user: req.user, courseReports })
+  } catch (error) {
+    console.error('Error retrieving educator reports:', error)
+    res.status(500).send('Internal Server Error, Close this tab!')
+  }
+})
+
 module.exports = lms
