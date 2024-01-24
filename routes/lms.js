@@ -190,10 +190,10 @@ lms.get(
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     if (request.user.isEducator) {
-      response.redirect('/educator-dashboard'
+      return response.redirect('/educator-dashboard'
       )
     } else {
-      response.redirect('/student-dashboard'
+      return response.redirect('/student-dashboard'
       )
     }
   }
@@ -374,6 +374,9 @@ lms.get('/mycourses',
 lms.get('/courses/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+    if (request.user.isEducator) {
+      return response.redirect('/dashboard')
+    }
     const allChapters = await Chapter.getChapters(request.params.id)
     const chapters = []
     const course = await Course.getCourse(request.params.id)
@@ -398,6 +401,9 @@ lms.get('/courses/:id',
 lms.get('/chapters/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+    if (request.user.isEducator) {
+      return response.redirect('/dashboard')
+    }
     const allPages = await Page.getPages(request.params.id)
     const pages = []
     await allPages.forEach((i) => {
@@ -414,6 +420,9 @@ lms.get('/chapters/:id',
 lms.get('/pages/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+    if (request.user.isEducator) {
+      return response.redirect('/dashboard')
+    }
     const page = await Page.getPage(request.params.id)
     const courseId = request.query.courseId
     if (await Enrollment.findOne({
@@ -447,6 +456,9 @@ lms.get('/pages/:id',
 lms.post('/markAsComplete/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+    if (request.user.isEducator) {
+      return response.redirect('/dashboard')
+    }
     try {
       const pageId = request.params.id
       const userId = request.user.id
@@ -473,69 +485,118 @@ lms.post('/markAsComplete/:id',
   }
 )
 
-lms.get('/changepassword', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
-  res.render('changepassword', {
-    csrfToken: req.csrfToken()
+lms.get('/changepassword',
+  connectEnsureLogin.ensureLoggedIn(),
+  (req, res) => {
+    res.render('changepassword', {
+      csrfToken: req.csrfToken()
+    })
   })
-})
 
-lms.post('/changepassword', connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
-  try {
-    const userId = req.user.id
-    const { currentPassword, newPassword, confirmPassword } = req.body
+lms.post('/changepassword',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (req, res) => {
+    try {
+      const userId = req.user.id
+      const { currentPassword, newPassword, confirmPassword } = req.body
 
-    const user = await User.findByPk(userId)
-    if (!user || !(await user.comparePassword(currentPassword))) {
-      req.flash('error', 'Incorrect current password')
-      return res.redirect('/changepassword')
+      const user = await User.findByPk(userId)
+      if (!user || !(await user.comparePassword(currentPassword))) {
+        req.flash('error', 'Incorrect current password')
+        return res.redirect('/changepassword')
+      }
+
+      if (newPassword !== confirmPassword) {
+        req.flash('error', 'New password and confirm password do not match')
+        return res.redirect('/changepassword')
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
+      await User.update({ password: hashedPassword }, { where: { id: req.user.id } })
+
+      req.flash('success', 'Password changed successfully')
+      res.redirect('/dashboard')
+    } catch (error) {
+      console.error('Error changing password:', error)
+      req.flash('error', 'Error changing password')
+      res.redirect('/changepassword')
     }
+  })
 
-    if (newPassword !== confirmPassword) {
-      req.flash('error', 'New password and confirm password do not match')
-      return res.redirect('/changepassword')
+lms.get('/educator/reports',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (req, res) => {
+    try {
+      if (!req.user.isEducator) {
+        res.redirect('/dashboard')
+      }
+      const userId = req.user.id
+      const courses = await Course.findAll({
+        where: { userId },
+        include: [
+          {
+            model: Enrollment,
+            attributes: [['courseId', 'courseid']]
+          }
+        ]
+      })
+
+      const courseReports = courses.map(course => ({
+        courseId: course.id,
+        courseName: course.name,
+        enrollmentCount: course.Enrollments.length
+      }))
+
+      courseReports.sort((a, b) => b.enrollmentCount - a.enrollmentCount)
+
+      res.render('reports', { user: req.user, courseReports })
+    } catch (error) {
+      console.error('Error retrieving educator reports:', error)
+      res.status(500).send('Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
     }
+  })
 
-    const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
-    await User.update({ password: hashedPassword }, { where: { id: req.user.id } })
-
-    req.flash('success', 'Password changed successfully')
-    res.redirect('/dashboard')
-  } catch (error) {
-    console.error('Error changing password:', error)
-    req.flash('error', 'Error changing password')
-    res.redirect('/changepassword')
-  }
-})
-
-lms.get('/educator/reports', connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
-  try {
-    if (!req.user.isEducator) {
+lms.get('/course-status/:id',
+  connectEnsureLogin.ensureLoggedIn(),
+  async (req, res) => {
+    if (req.user.isEducator) {
       res.redirect('/dashboard')
     }
-    const userId = req.user.id
-    const courses = await Course.findAll({
-      where: { userId },
-      include: [
-        {
-          model: Enrollment,
-          attributes: [['courseId', 'courseid']]
-        }
-      ]
-    })
+    try {
+      const courseId = req.params.id
+      const userId = req.user.id
+      const course = await Course.findByPk(courseId, {
+        include: [
+          {
+            model: Chapter,
+            include: {
+              model: Page,
+              attributes: ['id', 'title'],
+              include: {
+                model: Completion,
+                attributes: ['id'],
+                where: { userId },
+                required: false
+              }
+            },
+            attributes: ['id', 'name']
+          }
+        ]
+      })
 
-    const courseReports = courses.map(course => ({
-      courseId: course.id,
-      courseName: course.name,
-      enrollmentCount: course.Enrollments.length
-    }))
+      if (!course) {
+        return res.status(404).send('Course not found, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+      }
 
-    courseReports.sort((a, b) => b.enrollmentCount - a.enrollmentCount)
+      const totalPages = course.Chapters.reduce((acc, chapter) => acc + chapter.Pages.length, 0)
+      const completedPages = course.Chapters.reduce((acc, chapter) => acc + chapter.Pages.filter(page => page.Completions.length > 0).length, 0)
+      const completionPercentage = totalPages > 0 ? (completedPages / totalPages) * 100 : 0
 
-    res.render('reports', { user: req.user, courseReports })
-  } catch (error) {
-    console.error('Error retrieving educator reports:', error)
-    res.status(500).send('Internal Server Error, Close this tab!')
-  }
-})
+      res.render('coursestatus', { user: req.user, course, completionPercentage })
+    } catch (error) {
+      console.error('Error retrieving course information:', error)
+      res.status(500).send('Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+    }
+  })
 
 module.exports = lms

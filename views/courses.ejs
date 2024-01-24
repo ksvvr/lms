@@ -7,15 +7,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="text-center">
-    <br>
+    <%- include('header.ejs') %>
     <a href="/signout" class="bg-lime-300">Signout</a>
     <a href="/dashboard" class="bg-lime-300">Home</a>
     <a href="/mycourses" class="bg-lime-300">My Courses</a>
+    
     <h1 class="text-3xl font-bold mt-3"><%= course[0].name %></h1>
     <% if(status === null || status === undefined){ %>
         <p class="mt-2"><a class="bg-lime-300" href="/enroll/<%= course[0].id %>">Enroll</a></p>
     <% } else { %>
         <p class="mt-2">(Enrolled)</p>
+        <p class="mt-2"><a href="/course-status/<%= course[0].id %>" class="bg-lime-300" target="_blank">View Completion Status</a></p>
     <% } %>
     <h3>Chapters</h3>
     <p>(Click on below Chapters to view Pages...)</p>

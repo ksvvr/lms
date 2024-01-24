@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       Page.belongsTo(models.Chapter, {
         foreignKey: 'chapterId'
       })
+      Page.hasMany(models.Completion, {
+        foreignKey: 'pageId'
+      })
     }
 
     static addPage ({ title, content, chapterId }) {
