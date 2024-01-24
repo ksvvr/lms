@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: true,
-        len: 10
+        len: 5
       }
     },
     description: {
@@ -73,7 +73,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: true,
-        len: 10
+        len: 5
       }
     },
     educatorId: DataTypes.INTEGER

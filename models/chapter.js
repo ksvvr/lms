@@ -36,8 +36,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Chapter.init({
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: true,
+        len: 5
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: true,
+        len: 5
+      }
+    },
     courseId: DataTypes.INTEGER,
     order: DataTypes.INTEGER
   }, {

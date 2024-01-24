@@ -56,7 +56,7 @@ passport.use(
           if (result) {
             return done(null, user)
           } else {
-            return done(null, false, { message: 'Invalid password' })
+            return done(null, false, { message: 'Invalid Credentials, Try Again!' })
           }
         })
         .catch((error) => {
@@ -120,7 +120,7 @@ lms.post('/users', async function (request, response) {
       response.redirect('/dashboard')
     })
   } catch (error) {
-    request.flash('error', 'FirstName & E-Mail cannot be empty!')
+    request.flash('error', 'FirstName, E-Mail and Password cannot be empty!')
     console.log(error)
     response.redirect('/signup')
   }
@@ -139,8 +139,8 @@ lms.post(
       return response.redirect('/dashboard')
     } catch (error) {
       console.log(error)
-      request.flash('error', 'Course Name Needed')
-      return response.redirect('/dashboard')
+      request.flash('error', 'Course Name and Description Needed, and Both of Length More Than or Equal to 5')
+      return response.redirect('/educator-dashboard')
     }
   }
 )
@@ -159,7 +159,7 @@ lms.post(
       return response.redirect(`/course/${courseId}`)
     } catch (error) {
       console.log(error)
-      request.flash('error', 'Cannot Add Chapter')
+      request.flash('error', 'Chapter Name and Description Needed, and both of length more than or equal to 5')
       return response.redirect(`/course/${courseId}`)
     }
   }
@@ -179,7 +179,7 @@ lms.post(
       return response.redirect(`/chapter/${chapterId}`)
     } catch (error) {
       console.log(error)
-      request.flash('error', 'Cannot Add Page')
+      request.flash('error', 'Page Title(min length is 5) and Content(min length is 30) Needed! ')
       return response.redirect(`/chapter/${chapterId}`)
     }
   }
@@ -447,8 +447,8 @@ lms.get('/pages/:id',
         csrfToken: request.csrfToken()
       })
     } else {
-      request.flash('error', 'You have to enroll to view the pages...')
-      return response.redirect('/mycourses')
+      request.flash('error', 'You have to enroll in the course to view the pages...')
+      return response.redirect('/student-dashboard')
     }
   }
 )
@@ -476,11 +476,11 @@ lms.post('/markAsComplete/:id',
         userId,
         pageId
       })
-      response.status(200).send('Page marked as complete, Close this Tab!<p class="mt-2 mb-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+      response.status(200).send('<script src="https://cdn.tailwindcss.com"></script> Page marked as complete, Close this Tab!<p class="mt-2 mb-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
     } catch (error) {
       console.error('Error marking page as complete:', error)
       request.flash('error', 'Error marking page as complete.')
-      response.redirect('/mycourses')
+      return response.redirect('/mycourses')
     }
   }
 )
@@ -518,7 +518,7 @@ lms.post('/changepassword',
       res.redirect('/dashboard')
     } catch (error) {
       console.error('Error changing password:', error)
-      req.flash('error', 'Error changing password')
+      req.flash('error', 'Error changing password, try again later!')
       res.redirect('/changepassword')
     }
   })
@@ -552,7 +552,7 @@ lms.get('/educator/reports',
       res.render('reports', { user: req.user, courseReports })
     } catch (error) {
       console.error('Error retrieving educator reports:', error)
-      res.status(500).send('Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+      res.status(500).send('<script src="https://cdn.tailwindcss.com"></script>Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
     }
   })
 
@@ -585,7 +585,7 @@ lms.get('/course-status/:id',
       })
 
       if (!course) {
-        return res.status(404).send('Course not found, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+        return res.status(404).send('<script src="https://cdn.tailwindcss.com"></script>Course not found, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
       }
 
       const totalPages = course.Chapters.reduce((acc, chapter) => acc + chapter.Pages.length, 0)
@@ -595,7 +595,7 @@ lms.get('/course-status/:id',
       res.render('coursestatus', { user: req.user, course, completionPercentage })
     } catch (error) {
       console.error('Error retrieving course information:', error)
-      res.status(500).send('Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+      res.status(500).send('<script src="https://cdn.tailwindcss.com"></script>Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
     }
   })
 

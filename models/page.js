@@ -48,7 +48,14 @@ module.exports = (sequelize, DataTypes) => {
         len: 5
       }
     },
-    content: DataTypes.TEXT,
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notNull: true,
+        len: 30
+      }
+    },
     chapterId: DataTypes.INTEGER,
     order: DataTypes.INTEGER
   }, {
