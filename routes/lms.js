@@ -460,7 +460,7 @@ lms.post('/markAsComplete/:id',
       return response.redirect('/dashboard')
     }
     try {
-      const pageId = request.params.id
+      const pageId = request.body.pageId
       const userId = request.user.id
       const enrollment = await Enrollment.findOne({
         where: {

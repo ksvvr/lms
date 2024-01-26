@@ -19,6 +19,7 @@
     <% if(!isComplete) { %>
         <form action="/markAsComplete/<%= page.id %>" method="post">
             <input type="hidden" name="courseId" value="<%= courseId %>">
+            <input type="hidden" name="pageId" value="<%= page.id %>">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button type="submit" class="bg-lime-300">Mark As Complete</button>
         </form>
