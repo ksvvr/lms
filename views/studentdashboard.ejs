@@ -10,9 +10,9 @@
 
 <body class="text-center"> 
     <%- include('header.ejs') %>
-    <a href="/signout" class="bg-lime-300">Signout</a>
-    <a href="/changepassword" class="bg-lime-300">Change Password</a>
-    <a href="/mycourses" class="bg-lime-300">My Courses</a>
+    <a href="/signout" class="bg-lime-300 hover:bg-lime-400">Signout</a>
+    <a href="/changepassword" class="bg-lime-300 hover:bg-lime-400">Change Password</a>
+    <a href="/mycourses" class="bg-lime-300 hover:bg-lime-400">My Courses</a>
     <h1 class="text-xl font-bold mt-2">Welcome! <%= userDetail %></h1>
     <hr>
     <h3>You can enroll in the below courses...</h3>
@@ -28,7 +28,7 @@
             </th>
         </tr>
         <% for(var i=0; i < courses.length ;i++){ %>
-            <tr onclick="window.open('/courses/<%= courses[i].id %>', '_blank');" style="cursor: pointer;">
+            <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/courses/<%= courses[i].id %>', '_blank');" style="cursor: pointer;">
                 <td>
                   <%= courses[i].id %>
                 </td>

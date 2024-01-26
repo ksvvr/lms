@@ -8,14 +8,14 @@
 </head>
 <body class="text-center">
     <%- include('header.ejs') %>
-    <a href="/signout" class="bg-lime-300">Signout</a>
-    <a href="/dashboard" class="bg-lime-300">Home</a>
+    <a href="/signout" class="bg-lime-300 hover:bg-lime-400">Signout</a>
+    <a href="/dashboard" class="bg-lime-300 hover:bg-lime-400">Home</a>
     <hr class="m-2">
     <h1 class="font-bold">Add Chapters</h1>
     <form action="/addChapter" method="post">
         <input class="border-2 ml-2" type="text" placeholder="Chapter Name" name="name" required>
         <input class="border-2 ml-2" type="text" placeholder="Description" name="description" required> 
-        <button class="bg-lime-300 ml-2" type="submit">Add</button>
+        <button class="bg-lime-300 hover:bg-lime-400 ml-2" type="submit">Add</button>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input type="hidden" name="courseId" value="<%= courseId %>">
     </form>
@@ -32,7 +32,7 @@
             </th>
         </tr>
         <% for(var i=0; i < chapters.length ;i++){ %>
-            <tr onclick="window.open('/chapter/<%= chapters[i].id %>', '_blank');" style="cursor: pointer;">
+            <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/chapter/<%= chapters[i].id %>', '_blank');" style="cursor: pointer;">
                 <td>
                   <%= chapters[i].id %>
                 </td>
@@ -44,6 +44,6 @@
 
             <% } %>
     </table>
-    <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>
+    <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300 hover:bg-lime-400">Close Tab</a></p>
 </body>
 </html>

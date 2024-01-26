@@ -8,9 +8,9 @@
 </head>
 <body class="text-center">
     <br>
-    <a href="/signout" class="bg-lime-300">Signout</a>
-    <a href="/dashboard" class="bg-lime-300">Home</a>
-    <a href="/mycourses" class="bg-lime-300">My Courses</a>
+    <a href="/signout" class="bg-lime-300 hover:bg-lime-400">Signout</a>
+    <a href="/dashboard" class="bg-lime-300 hover:bg-lime-400">Home</a>
+    <a href="/mycourses" class="bg-lime-300 hover:bg-lime-400">My Courses</a>
     <hr class="mb-1 mt-3">
     <h1 class="font-bold text-xl"><%= page.title %></h1>
     <hr class="mb-1 mt-1">
@@ -21,11 +21,11 @@
             <input type="hidden" name="courseId" value="<%= courseId %>">
             <input type="hidden" name="pageId" value="<%= page.id %>">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button type="submit" class="bg-lime-300">Mark As Complete</button>
+            <button type="submit" class="bg-lime-300 hover:bg-lime-400">Mark As Complete</button>
         </form>
     <% } else { %>
         <p class="mb-2">(Marked Complete)</p>
     <% } %>
-    <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>
+    <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300 hover:bg-lime-400">Close Tab</a></p>
 </body>
 </html>
