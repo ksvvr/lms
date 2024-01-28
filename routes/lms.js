@@ -149,7 +149,13 @@ lms.post(
   '/addChapter',
   connectEnsureLogin.ensureLoggedIn(),
   async function (request, response) {
+    const addingEducator = request.user.id
     const courseId = request.body.courseId
+    const course = await Course.getCourse(courseId)
+    if (course[0].userId !== addingEducator) {
+      request.flash('error', 'You are not Authorized to Add Chapters!')
+      return response.redirect(`/course/${courseId}`)
+    }
     try {
       await Chapter.addChapter({
         name: request.body.name,
@@ -206,7 +212,11 @@ lms.get(
     if (!request.user.isEducator) {
       return response.redirect('/dashboard')
     }
-    const dt = new Date().toISOString().split('T')[0]
+    const allCoursesOnLMS = await Course.getAllCourses()
+    const allCourseOnLms = []
+    allCoursesOnLMS.forEach(i => {
+      allCourseOnLms.push(i)
+    })
     const allCourses = await Course.getCourses(request.user.id)
     const courses = []
     const userDetail = request.user.firstName + ' ' + request.user.lastName
@@ -217,6 +227,7 @@ lms.get(
     if (request.accepts('html')) {
       response.render('dashboard.ejs', {
         courses,
+        allCourses: allCourseOnLms,
         userDetail,
         csrfToken: request.csrfToken()
       })

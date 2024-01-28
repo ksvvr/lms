@@ -14,8 +14,8 @@
     <h1 class="font-bold">Add Pages</h1>
     <hr class="mt-2 mb-2">
     <form action="/addPage" method="post" class="text-center">
-        <input class="border-2 ml-2" type="text" placeholder="Page Title" name="title" required>
-        <textarea class="border-2 mx-auto block w-3/4 mt-2 mb-2" rows="10" name="content" placeholder="Enter Page Content Here..." required></textarea>
+        <input class="border-2 ml-2" type="text" placeholder="Page Title, min 5 characters" name="title" required>
+        <textarea class="border-2 mx-auto block w-3/4 mt-2 mb-2" rows="10" name="content" placeholder="Enter Page Content Here,min 30 characters..." required></textarea>
         <button class="bg-lime-300 ml-2 hover:bg-lime-400" type="submit">Add</button>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <input type="hidden" name="chapterId" value="<%= chapterId %>">

@@ -43,7 +43,29 @@
                       <%= courses[i].name %>
                     </td>
                   </tr>                
-            <% } %>
+            <% } %> 
+        </table>
+        <hr class="mt-2">
+        <h1>Courses Available on LMS</h1>
+        <table class="mx-auto">
+            <tr>
+                <th>
+                    Course.No
+                </th>
+                <th>
+                    Course Name
+                </th>
+            </tr>
+            <% for(var j=0; j < allCourses.length ;j++){ %>
+                <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/course/<%= allCourses[j].id %>', '_blank');" style="cursor: pointer;">
+                    <td>
+                      <%= allCourses[j].id %>
+                    </td>
+                    <td class="group flex items-center">
+                      <%= allCourses[j].name %>
+                    </td>
+                  </tr>                
+            <% } %> 
         </table>
 
 </body>
