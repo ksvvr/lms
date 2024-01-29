@@ -221,7 +221,9 @@ lms.get(
     const allCoursesOnLMS = await Course.getAllCourses()
     const allCourseOnLms = []
     allCoursesOnLMS.forEach(i => {
-      allCourseOnLms.push(i)
+      if (i.userId !== request.user.id) {
+        allCourseOnLms.push(i)
+      }
     })
     const allCourses = await Course.getCourses(request.user.id)
     const courses = []
