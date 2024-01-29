@@ -1,0 +1,8 @@
+body {
+    background-color: beige;
+}
+
+input, textarea {
+    background-color: bisque;
+    border: 1px solid gray;
+}
