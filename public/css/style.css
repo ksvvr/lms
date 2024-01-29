@@ -6,3 +6,7 @@ input, textarea {
     background-color: bisque;
     border: 1px solid gray;
 }
+
+hr {
+    border: 1px solid gray;
+}
