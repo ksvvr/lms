@@ -177,6 +177,12 @@ lms.post(
   async function (request, response) {
     const chapterId = request.body.chapterId
     try {
+      const courseId = (await Chapter.findByPk(chapterId)).courseId
+      const courseOwner = (await Course.findByPk(courseId)).userId
+      if (courseOwner !== request.user.id) {
+        request.flash('error', 'You cannot add pages to this course!')
+        return response.redirect(`/chapter/${chapterId}`)
+      }
       await Page.addPage({
         title: request.body.title,
         content: request.body.content,
