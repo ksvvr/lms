@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chapter</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <%- include('insideHead') %>
 </head>
 <body class="text-center">
-    <%- include('header.ejs') %>
-    <a href="/signout" class="bg-lime-300 hover:bg-lime-400">Signout</a>
-    <a href="/dashboard" class="bg-lime-300 hover:bg-lime-400">Home</a>
-    <!--p onclick="window.open('/chapter/<%= chapterId %>', '_self');"><a>Back to Chapters</a></p-->
+    <%- include('navbar.ejs', { request: request }) %>
+    
     <h1 class="font-bold">Add Pages</h1>
     <hr class="mt-2 mb-2">
     <form action="/addPage" method="post" class="text-center">

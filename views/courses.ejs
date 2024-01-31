@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <%- include('insideHead') %>
 </head>
 <body class="text-center">
-    <%- include('header.ejs') %>
-    <a href="/signout" class="bg-lime-300 hover:bg-lime-400">Signout</a>
-    <a href="/dashboard" class="bg-lime-300 hover:bg-lime-400">Home</a>
-    <a href="/mycourses" class="bg-lime-300 hover:bg-lime-400">My Courses</a>
+    <%- include('navbar.ejs', { request: request }) %>
     
     <h1 class="text-3xl font-bold mt-3"><%= course[0].name %></h1>
     <% if(status === null || status === undefined){ %>

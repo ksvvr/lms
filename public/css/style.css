@@ -1,5 +1,5 @@
 body {
-    background-color: beige;
+    background-color: beige !important;
 }
 
 input, textarea {
@@ -9,4 +9,4 @@ input, textarea {
 
 hr {
     border: 1px solid gray;
-}
+} 

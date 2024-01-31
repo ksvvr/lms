@@ -235,6 +235,7 @@ lms.get(
     if (request.accepts('html')) {
       response.render('dashboard.ejs', {
         courses,
+        request,
         allCourses: allCourseOnLms,
         userDetail,
         csrfToken: request.csrfToken()
@@ -264,6 +265,7 @@ lms.get(
     if (request.accepts('html')) {
       response.render('studentdashboard.ejs', {
         courses,
+        request,
         userDetail,
         csrfToken: request.csrfToken()
       })
@@ -316,6 +318,7 @@ lms.get('/course/:id',
     })
     response.render('course', {
       chapters,
+      request,
       courseId: request.params.id,
       csrfToken: request.csrfToken()
     })
@@ -335,6 +338,7 @@ lms.get('/chapter/:id',
     })
     response.render('chapter', {
       pages,
+      request,
       chapterId: request.params.id,
       csrfToken: request.csrfToken()
     })
@@ -386,6 +390,7 @@ lms.get('/mycourses',
     // console.log(courses)
     return response.render('mycourses', {
       courses,
+      request,
       csrfToken: request.csrfToken()
     })
   })
@@ -411,6 +416,7 @@ lms.get('/courses/:id',
     response.render('courses', {
       course,
       status,
+      request,
       chapters,
       courseId: request.params.id,
       csrfToken: request.csrfToken()
@@ -430,6 +436,7 @@ lms.get('/chapters/:id',
     })
     response.render('chapters', {
       pages,
+      request,
       courseId: request.query.courseId,
       chapterId: request.params.id,
       csrfToken: request.csrfToken()
@@ -461,6 +468,7 @@ lms.get('/pages/:id',
       }
       return response.render('page', {
         page,
+        request,
         courseId,
         isComplete,
         csrfToken: request.csrfToken()
@@ -495,7 +503,7 @@ lms.post('/markAsComplete/:id',
         userId,
         pageId
       })
-      response.status(200).send('<script src="https://cdn.tailwindcss.com"></script> Page marked as complete, Close this Tab!<p class="mt-2 mb-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+      response.status(200).send('<body class="text-center"><script src="https://cdn.tailwindcss.com"></script> <p class="mt-2 mb-2 mx-auto">Page marked as complete, Close this Tab! <a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p></body>')
     } catch (error) {
       console.error('Error marking page as complete:', error)
       request.flash('error', 'Error marking page as complete.')
@@ -508,7 +516,8 @@ lms.get('/changepassword',
   connectEnsureLogin.ensureLoggedIn(),
   (req, res) => {
     res.render('changepassword', {
-      csrfToken: req.csrfToken()
+      csrfToken: req.csrfToken(),
+      request: req
     })
   })
 
@@ -568,7 +577,7 @@ lms.get('/educator/reports',
 
       courseReports.sort((a, b) => b.enrollmentCount - a.enrollmentCount)
 
-      res.render('reports', { user: req.user, courseReports })
+      res.render('reports', { user: req.user, courseReports, request: req })
     } catch (error) {
       console.error('Error retrieving educator reports:', error)
       res.status(500).send('<script src="https://cdn.tailwindcss.com"></script>Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
@@ -611,7 +620,7 @@ lms.get('/course-status/:id',
       const completedPages = course.Chapters.reduce((acc, chapter) => acc + chapter.Pages.filter(page => page.Completions.length > 0).length, 0)
       const completionPercentage = totalPages > 0 ? (completedPages / totalPages) * 100 : 0
 
-      res.render('coursestatus', { user: req.user, course, completionPercentage })
+      res.render('coursestatus', { user: req.user, course, completionPercentage, request: req })
     } catch (error) {
       console.error('Error retrieving course information:', error)
       res.status(500).send('<script src="https://cdn.tailwindcss.com"></script>Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
