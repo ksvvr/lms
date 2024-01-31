@@ -12,21 +12,21 @@ Users can change their passwords.
 
 ### Some Screenshots of the Project
 
-![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/ss%20(2).png)
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(1).png)
 
-![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/ss%20(3).png)
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(2).png)
 
-![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/ss%20(4).png)
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(3).png)
 
-![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/ss%20(7).png)
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(4).png)
 
-![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/ss%20(8).png)
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(5).png)
 
-![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/ss%20(9).png)
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(6).png)
 
-![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/ss%20(13).png)
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(7).png)
 
-![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/ss%20(16).png)
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(8).png)
 
 ## Live Link to the Project
 https://ksvvr-lms.onrender.com
