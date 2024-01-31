@@ -14,6 +14,10 @@
     <p class="mt-2">( <%= request.user.email %> )</p>
     
     <%- include('notifications.ejs') %>
+
+    <% if (courseReports.length === 0) { %>
+        <p class="bg-red-400 mt-2">You haven't created any courses yet!</p>
+    <% } %>
    
     <% courseReports.forEach(courseReport=> { %>
         <div>
