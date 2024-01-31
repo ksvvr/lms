@@ -111,6 +111,14 @@ lms.post('/users', async function (request, response) {
       request.flash('error', 'Password Length MIN 8')
       return response.redirect('/signup')
     }
+    if (await User.findOne({
+      where: {
+        email: request.body.email
+      }
+    })) {
+      request.flash('error', 'E-mail ID already used!')
+      return response.redirect('/signup')
+    }
     const user = await User.create({
       firstName: request.body.firstName,
       lastName: request.body.lastName,
@@ -381,6 +389,7 @@ lms.get('/enroll/:id',
         userId: user,
         courseId: course
       })
+      request.flash('success', 'Successfully Enrolled in the Course!')
       return response.redirect('/mycourses')
     } catch (error) {
       console.log(error)
@@ -497,8 +506,8 @@ lms.get('/pages/:id',
         csrfToken: request.csrfToken()
       })
     } else {
-      request.flash('error', 'You have to enroll in the course to view the pages...')
-      return response.redirect('/student-dashboard')
+      request.flash('error', 'You have to enroll in the course to view the pages! Go back to course and Enroll...')
+      return response.redirect(`/chapters/${chapter.id}?courseId=${course.id}`)
     }
   }
 )

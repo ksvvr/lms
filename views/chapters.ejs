@@ -11,7 +11,7 @@
     <div>
         <p class="inline-block">Course : </p>
         <p class="font-bold text-xl inline-block"><%= course.name %></p>
-        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/courses/<%= course.id %>'">Go Back to Chapters</p>
+        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/courses/<%= course.id %>'">Go Back to Course(View Chapters)</p>
     </div>
     <div class="hover:bg-lime-400 mt-2" onclick="window.location.href='/chapters/<%= chapter.id %>'">
         <p class="inline-block">Chapter : </p>
@@ -30,6 +30,11 @@
                 Page
             </th>
         </tr>
+        <% if (pages.length === 0){ %>
+            <tr>
+                <td colspan="2" class="bg-red-300">No pages are added yet!</td>
+            </tr>
+            <% } %>
         <% for(var i=0; i < pages.length ;i++){ %> 
             <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/pages/<%= pages[i].id %>?courseId=<%= course.id %>', '_self');" style="cursor: pointer;">
                 <td>

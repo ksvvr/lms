@@ -11,12 +11,12 @@
     <div>
         <p class="inline-block">Course : </p>
         <p class="font-bold text-xl inline-block"><%= course.name %></p>
-        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/course/<%= course.id %>'">Go Back to Chapters</p>
     </div>
     <div class="hover:bg-lime-400 mt-2" onclick="window.location.href='/chapter/<%= chapter.id %>'">
         <p class="inline-block">Chapter : </p>
         <p class="font-bold text-xl inline-block"><%= chapter.name %></p>
     </div>
+    <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/course/<%= course.id %>'">Go Back to Chapters</p>
     <hr class="mt-2 mb-2">
     <h1 class="font-bold">Add Pages</h1>
     <form action="/addPage" method="post" class="text-center">
@@ -37,6 +37,12 @@
                 Page
             </th>
         </tr>
+            <% if (pages.length === 0){ %>
+            <tr>
+                <td colspan="2" class="bg-red-300">No pages are added yet!</td>
+            </tr>
+            <% } %>
+        
         <% for(var i=0; i < pages.length ;i++){ %>
             <tr class="bg-sky-300 border hover:bg-sky-400">
                 <td>

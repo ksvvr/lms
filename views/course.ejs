@@ -33,6 +33,13 @@
                 Chapter Name
             </th>
         </tr>
+        <tr>
+            <% if (chapters.length === 0){ %>
+                <td colspan="2" class="bg-red-300">No chapters are added yet!</td>
+            <% } else { %>
+                <td colspan="2">Click on courses to add chapters and pages...</td>
+            <% } %>
+        </tr>
         <% for(var i=0; i < chapters.length ;i++){ %>
             <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/chapter/<%= chapters[i].id %>', '_self');" style="cursor: pointer;">
                 <td>

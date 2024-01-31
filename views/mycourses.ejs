@@ -33,6 +33,9 @@
                 </td>
               </tr>           
         <% } %>
+        <% if (courses.length === 0){ %>
+            <p class="bg-red-300">You haven't enrolled in any course yet! Find Courses in Dashboard...</p>
+        <% } %>
     </table>
 </body>
 </html>
