@@ -11,8 +11,8 @@
 
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
-        <h1 class="text-xl font-bold">Welcome! <%= userDetail %>
-        </h1>
+        <h1 class="text-xl font-bold">Welcome! <%= userDetail %></h1>
+        <p class="">( <%= request.user.email %> )</p>
         <hr>
         <h1>Add Course Here...</h1>
         <form action="/addCourse" method="post">
@@ -34,7 +34,7 @@
                 </th>
             </tr>
             <% for(var i=0; i < courses.length ;i++){ %>
-                <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/course/<%= courses[i].id %>', '_blank');" style="cursor: pointer;">
+                <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/course/<%= courses[i].id %>', '_self');" style="cursor: pointer;">
                     <td>
                       <%= courses[i].id %>
                     </td>
@@ -45,7 +45,7 @@
             <% } %> 
         </table>
         <hr class="mt-2">
-        <h1 class="font-bold">Courses Available on LMS</h1>
+        <h1 class="font-bold">Courses from Other Educators</h1>
         <p>Use CTRL+F to find a Course</p>
         <table class="mx-auto">
             <tr>
@@ -57,7 +57,7 @@
                 </th>
             </tr>
             <% for(var j=0; j < allCourses.length ;j++){ %>
-                <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/course/<%= allCourses[j].id %>', '_blank');" style="cursor: pointer;">
+                <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/course/<%= allCourses[j].id %>', '_self');" style="cursor: pointer;">
                     <td>
                       <%= allCourses[j].id %>
                     </td>

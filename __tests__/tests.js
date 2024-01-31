@@ -160,7 +160,7 @@ describe('Student Test Suite', () => {
       courseId: 1,
       _csrf: csrfToken
     })
-    expect(markCompleteRes.statusCode).toBe(200)
+    expect(markCompleteRes.statusCode).toBe(302)
     // Add assertions based on the response to ensure successful completion marking
   })
 

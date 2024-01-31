@@ -33,35 +33,37 @@
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
                         <% if (request.user.isEducator) { %>
-                            <a class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/dashboard">Home</a>
-                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/educator/reports">EducatorReports</a>
-                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/changepassword">ChangePassword</a>
-                            <a class="text-gray-300 hover:bg-red-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/signout">SignOut</a>
+                            <a class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/">LMS</a>
+                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/dashboard">Home</a>
+                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/educator/reports">EducatorReports</a>
+                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/changepassword">ChangePassword</a>
+                            <a class="text-red-300 hover:bg-red-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/signout">SignOut</a>
                         <% } else { %>
-                            <a class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/dashboard">Home</a>
-                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/mycourses">MyCourses</a>
-                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/changepassword">ChangePassword</a>
-                            <a class="text-gray-300 hover:bg-red-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/signout">SignOut</a>
+                            <a class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/">LMS</a>
+                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/dashboard">Home</a>
+                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/mycourses">MyCourses</a>
+                            <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/changepassword">ChangePassword</a>
+                            <a class="text-red-300 hover:bg-red-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/signout">SignOut</a>
                         <% } %>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Mobile menu, show/hide based on menu state. -->
     <div class="sm:hidden" id="mobile-menu">
         <div class="space-y-1 px-2 pb-3 pt-2">
             <% if (request.user.isEducator) { %>
-                <a class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/dashboard">Home</a>
-                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/educator/reports">EducatorReports</a>
-                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/changepassword">ChangePassword</a>
-                <a class="text-gray-300 hover:bg-red-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/signout">SignOut</a>
+                <a class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/">LMS</a>
+                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/dashboard">Home</a>
+                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/educator/reports">EducatorReports</a>
+                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/changepassword">ChangePassword</a>
+                <a class="text-red-300 hover:bg-red-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/signout">SignOut</a>
             <% } else { %>
-                <a class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/dashboard">Home</a>
-                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/mycourses">MyCourses</a>
-                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/changepassword">ChangePassword</a>
-                <a class="text-gray-300 hover:bg-red-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/signout">SignOut</a>
+                <a class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page" href="/">LMS</a>
+                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/dashboard">Home</a>
+                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/mycourses">MyCourses</a>
+                <a class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/changepassword">ChangePassword</a>
+                <a class="text-red-300 hover:bg-red-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" href="/signout">SignOut</a>
             <% } %>
         </div>
     </div>

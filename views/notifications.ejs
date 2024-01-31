@@ -1,5 +1,11 @@
 <% if(messages && messages.error && messages.error.length > 0)  { %>
     <% for(var i=0; i<messages.error.length; i++) { %>
-            <li class="bg-red-400 bg-danger hover:bg-red-500 mt-2"> <%= messages.error[i] %></li>
+            <li class="bg-red-400 hover:bg-red-500 mt-2"> <%= messages.error[i] %></li>
+    <% } %>
+<% } %>
+
+<% if (messages && messages.success && messages.success.length > 0) { %>
+    <% for (var j = 0; j < messages.success.length; j++) { %>
+        <li class="bg-green-400 hover:bg-green-500 mt-2"><%= messages.success[j] %></li>
     <% } %>
 <% } %>

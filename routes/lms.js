@@ -98,7 +98,7 @@ lms.get('/signup', function (request, response) {
 
 lms.post('/users', async function (request, response) {
   const hashedPwd = await bcrypt.hash(request.body.password, saltRounds)
-  console.log(hashedPwd)
+  // console.log(hashedPwd)
   let isEducator = false
 
   if (request.body.isEducator === 'true') {
@@ -106,6 +106,11 @@ lms.post('/users', async function (request, response) {
   }
 
   try {
+    const pas = request.body.password
+    if (pas.length < 8) {
+      request.flash('error', 'Password Length MIN 8')
+      return response.redirect('/signup')
+    }
     const user = await User.create({
       firstName: request.body.firstName,
       lastName: request.body.lastName,
@@ -120,7 +125,7 @@ lms.post('/users', async function (request, response) {
       response.redirect('/dashboard')
     })
   } catch (error) {
-    request.flash('error', 'FirstName, E-Mail and Password cannot be empty!')
+    request.flash('error', 'FirstName, E-Mail and Password(min len 8) cannot be empty!')
     console.log(error)
     response.redirect('/signup')
   }
@@ -483,6 +488,8 @@ lms.get('/pages/:id',
 lms.post('/markAsComplete/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
+    const courseId = request.body.courseId
+    const pageId = request.body.pageId
     if (request.user.isEducator) {
       return response.redirect('/dashboard')
     }
@@ -503,7 +510,8 @@ lms.post('/markAsComplete/:id',
         userId,
         pageId
       })
-      response.status(200).send('<body class="text-center"><script src="https://cdn.tailwindcss.com"></script> <p class="mt-2 mb-2 mx-auto">Page marked as complete, Close this Tab! <a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p></body>')
+      request.flash('success', 'Page marked as Complete!')
+      return response.redirect(`/pages/${pageId}?courseId=${courseId}`)
     } catch (error) {
       console.error('Error marking page as complete:', error)
       request.flash('error', 'Error marking page as complete.')
@@ -539,11 +547,19 @@ lms.post('/changepassword',
         return res.redirect('/changepassword')
       }
 
+      if (newPassword.length < 8) {
+        req.flash('error', 'New password length must be minimum 8 characters!')
+        return res.redirect('/changepassword')
+      }
+
       const hashedPassword = await bcrypt.hash(newPassword, saltRounds)
       await User.update({ password: hashedPassword }, { where: { id: req.user.id } })
 
       req.flash('success', 'Password changed successfully')
-      res.redirect('/dashboard')
+      if (req.user.isEducator) {
+        return res.redirect('/educator-dashboard')
+      }
+      return res.redirect('/student-dashboard')
     } catch (error) {
       console.error('Error changing password:', error)
       req.flash('error', 'Error changing password, try again later!')
