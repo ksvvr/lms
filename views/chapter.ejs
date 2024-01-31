@@ -1,58 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chapter</title>
     <%- include('insideHead') %>
+        <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
+
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
-    <div>
-        <p class="inline-block">Course : </p>
-        <p class="font-bold text-xl inline-block"><%= course.name %></p>
-    </div>
-    <div class="hover:bg-lime-400 mt-2" onclick="window.location.href='/chapter/<%= chapter.id %>'">
-        <p class="inline-block">Chapter : </p>
-        <p class="font-bold text-xl inline-block"><%= chapter.name %></p>
-    </div>
-    <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/course/<%= course.id %>'">Go Back to Chapters</p>
-    <hr class="mt-2 mb-2">
-    <h1 class="font-bold">Add Pages</h1>
-    <form action="/addPage" method="post" class="text-center">
-        <input class="border-2 ml-2" type="text" placeholder="Page Title, min 5 characters" name="title" required>
-        <textarea class="border-2 mx-auto block w-3/4 mt-2 mb-2" rows="10" name="content" placeholder="Enter Page Content Here,min 30 characters..." required></textarea>
-        <button class="bg-lime-300 ml-2 hover:bg-lime-400" type="submit">Add</button>
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <input type="hidden" name="chapterId" value="<%= chapterId %>">
-    </form>
-    <%- include('notifications') %>
-    <hr class="mt-2">
-    <table class="mx-auto">
-        <tr>
-            <th>
-                P.No
-            </th>
-            <th>
-                Page
-            </th>
-        </tr>
-            <% if (pages.length === 0){ %>
-            <tr>
-                <td colspan="2" class="bg-red-300">No pages are added yet!</td>
-            </tr>
-            <% } %>
-        
-        <% for(var i=0; i < pages.length ;i++){ %>
-            <tr class="bg-sky-300 border hover:bg-sky-400">
-                <td>
-                    <%= pages[i].id %>
-                </td>
-                <td class="group flex items-center">
-                    <%= pages[i].title %>
-                </td>
-            </tr>
-        <% } %>
-    </table>
+        <div>
+            <p class="inline-block">Course : </p>
+            <p class="font-bold text-xl inline-block">
+                <%= course.name %>
+            </p>
+        </div>
+        <div class="hover:bg-lime-400 mt-2" onclick="window.location.href='/chapter/<%= chapter.id %>'">
+            <p class="inline-block">Chapter : </p>
+            <p class="font-bold text-xl inline-block">
+                <%= chapter.name %>
+            </p>
+        </div>
+        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/course/<%= course.id %>'">Go
+            Back to Chapters</p>
+        <hr class="mt-2 mb-2">
+        <h1 class="font-bold">Add Pages</h1>
+        <form action="/addPage" method="post" class="text-center">
+            <input class="border-2 ml-2 mb-2" type="text" placeholder="Page Title, min 5 characters" name="title" required>
+            <div id="editor" class="mt-2">
+                <p>Enter Page Content Here,<b>min 30 characters...</b></p>
+            </div>
+            <input type="hidden" id="contentInput" name="content">
+            <button class="bg-lime-300 ml-2 hover:bg-lime-400 mt-2" type="submit">Add</button>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <input type="hidden" name="chapterId" value="<%= chapterId %>">
+        </form>
+        <%- include('notifications') %>
+            <hr class="mt-2">
+            <table class="mx-auto">
+                <tr>
+                    <th>
+                        P.No
+                    </th>
+                    <th>
+                        Page
+                    </th>
+                </tr>
+                <% if (pages.length===0){ %>
+                    <tr>
+                        <td colspan="2" class="bg-red-300">No pages are added yet!</td>
+                    </tr>
+                    <% } %>
+
+                        <% for(var i=0; i < pages.length ;i++){ %>
+                            <tr class="bg-sky-300 border hover:bg-sky-400">
+                                <td>
+                                    <%= pages[i].id %>
+                                </td>
+                                <td class="group flex items-center">
+                                    <%= pages[i].title %>
+                                </td>
+                            </tr>
+                            <% } %>
+            </table>
+            <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+            <script>
+                var quill = new Quill('#editor', {
+                    theme: 'snow'
+                });
+                document.querySelector('form').onsubmit = function () {
+                    var content = document.querySelector('#editor .ql-editor').innerHTML;
+                    document.querySelector('#contentInput').value = content;
+                };
+            </script>
 </body>
+
 </html>

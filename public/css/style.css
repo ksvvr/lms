@@ -9,4 +9,17 @@ input, textarea {
 
 hr {
     border: 1px gray;
-} 
+}
+
+#editor {
+    max-width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background-color: bisque !important;
+}
+
+.ql-toolbar.ql-snow {
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
