@@ -8,6 +8,10 @@
 </head>
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
+    <div class="hover:bg-lime-300" onclick="window.location.href='/course/<%= course[0].id %>'">
+        <p class="inline-block">Course : </p>
+        <p class="font-bold text-xl inline-block"><%= course[0].name %></p>
+    </div>
     <hr class="m-2">
     <h1 class="font-bold">Add Chapters</h1>
     <form action="/addChapter" method="post">

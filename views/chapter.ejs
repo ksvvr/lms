@@ -8,9 +8,17 @@
 </head>
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
-    
-    <h1 class="font-bold">Add Pages</h1>
+    <div>
+        <p class="inline-block">Course : </p>
+        <p class="font-bold text-xl inline-block"><%= course.name %></p>
+        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/course/<%= course.id %>'">Go Back to Chapters</p>
+    </div>
+    <div class="hover:bg-lime-400 mt-2" onclick="window.location.href='/chapter/<%= chapter.id %>'">
+        <p class="inline-block">Chapter : </p>
+        <p class="font-bold text-xl inline-block"><%= chapter.name %></p>
+    </div>
     <hr class="mt-2 mb-2">
+    <h1 class="font-bold">Add Pages</h1>
     <form action="/addPage" method="post" class="text-center">
         <input class="border-2 ml-2" type="text" placeholder="Page Title, min 5 characters" name="title" required>
         <textarea class="border-2 mx-auto block w-3/4 mt-2 mb-2" rows="10" name="content" placeholder="Enter Page Content Here,min 30 characters..." required></textarea>

@@ -320,6 +320,7 @@ lms.get('/course/:id',
       const parameterr = request.params.id
       return response.redirect(`/courses/${parameterr}`)
     }
+    const course = await Course.getCourse(request.params.id)
     const allChapters = await Chapter.getChapters(request.params.id)
     const chapters = []
     await allChapters.forEach((i) => {
@@ -328,6 +329,7 @@ lms.get('/course/:id',
     response.render('course', {
       chapters,
       request,
+      course,
       courseId: request.params.id,
       csrfToken: request.csrfToken()
     })
@@ -340,6 +342,8 @@ lms.get('/chapter/:id',
       const parameterr = request.params.id
       return response.redirect(`/chapters/${parameterr}`)
     }
+    const chapter = await Chapter.findByPk(request.params.id)
+    const course = await Course.findByPk(chapter.courseId)
     const allPages = await Page.getPages(request.params.id)
     const pages = []
     await allPages.forEach((i) => {
@@ -347,6 +351,8 @@ lms.get('/chapter/:id',
     })
     response.render('chapter', {
       pages,
+      chapter,
+      course,
       request,
       chapterId: request.params.id,
       csrfToken: request.csrfToken()
@@ -439,6 +445,8 @@ lms.get('/chapters/:id',
       return response.redirect('/dashboard')
     }
     const allPages = await Page.getPages(request.params.id)
+    const chapter = await Chapter.findByPk(request.params.id)
+    const course = await Course.findByPk(chapter.courseId)
     const pages = []
     await allPages.forEach((i) => {
       pages.push(i)
@@ -446,6 +454,8 @@ lms.get('/chapters/:id',
     response.render('chapters', {
       pages,
       request,
+      chapter,
+      course,
       courseId: request.query.courseId,
       chapterId: request.params.id,
       csrfToken: request.csrfToken()
@@ -460,6 +470,8 @@ lms.get('/pages/:id',
     }
     const page = await Page.getPage(request.params.id)
     const courseId = request.query.courseId
+    const course = await Course.findByPk(courseId)
+    const chapter = await Chapter.findByPk(page.chapterId)
     if (await Enrollment.findOne({
       where: {
         userId: request.user.id,
@@ -478,6 +490,8 @@ lms.get('/pages/:id',
       return response.render('page', {
         page,
         request,
+        course,
+        chapter,
         courseId,
         isComplete,
         csrfToken: request.csrfToken()
