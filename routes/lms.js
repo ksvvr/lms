@@ -141,7 +141,8 @@ lms.post(
         description: request.body.description,
         userId: request.user.id
       })
-      return response.redirect('/dashboard')
+      request.flash('success', 'New Course added successfully!')
+      return response.redirect('/educator-dashboard')
     } catch (error) {
       console.log(error)
       request.flash('error', 'Course Name and Description Needed, and Both of Length More Than or Equal to 5')
@@ -167,6 +168,7 @@ lms.post(
         description: request.body.description,
         courseId: request.body.courseId
       })
+      request.flash('success', 'New Chapter Added Successfully!')
       return response.redirect(`/course/${courseId}`)
     } catch (error) {
       console.log(error)
@@ -193,6 +195,7 @@ lms.post(
         content: request.body.content,
         chapterId: request.body.chapterId
       })
+      request.flash('success', 'New Page Added Successfully!')
       return response.redirect(`/chapter/${chapterId}`)
     } catch (error) {
       console.log(error)
@@ -287,7 +290,8 @@ lms.get('/signout', (request, response, next) => {
     if (err) {
       return next(err)
     }
-    response.redirect('/')
+    request.flash('success', 'User Signed Out Successfully!')
+    return response.redirect('/')
   })
 })
 

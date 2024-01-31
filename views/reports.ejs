@@ -11,6 +11,7 @@
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
     <h2 class="font-bold text-3xl mt-2">Your Courses Report</h2>
+    <p class="mt-2">( <%= request.user.email %> )</p>
     
     <%- include('notifications.ejs') %>
    
