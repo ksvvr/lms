@@ -28,9 +28,14 @@ Users can change their passwords.
 
 ![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(8).png)
 
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(9).png)
+
+![Image - ksvvr lms screenshot](https://github.com/ksvvr/lms/blob/main/screenshots/lms%20(10).png)
+
 ## Live Link to the Project
 Live Application [Link - Render](https://ksvvr-lms.onrender.com)
 
 ## Video Demo of Project
-Video Demo [Link - Loom](https://www.loom.com/share/60a364ab07f74b6ba75e07e42f48b974?sid=d19fc4a5-2845-421f-b487-34d0eb8f6a84)
-Video Demo [Link - Youtube](https://youtu.be/moL0GgUwxM4)
+Video Demo [Link - Loom](https://www.loom.com/share/640a57e532b140a896499d1860a08070?sid=49749870-e4b6-4ebf-ab9b-6a86f6aa42b0)
+
+Video Demo [Link - Youtube](https://youtu.be/MsYJWbIG34k)
