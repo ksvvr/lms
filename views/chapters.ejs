@@ -11,41 +11,23 @@
     <div>
         <p class="inline-block">Course : </p>
         <p class="font-bold text-xl inline-block"><%= course.name %></p>
-        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/courses/<%= course.id %>'">Go Back to Course(View Chapters)</p>
+        <div>
+            <p class="hover:cursor-pointer inline-block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/courses/<%= course.id %>'">Go Back to Course(View Chapters)</p>
+        </div>
+        
     </div>
-    <div class="hover:bg-lime-400 mt-2" onclick="window.location.href='/chapters/<%= chapter.id %>'">
-        <p class="inline-block">Chapter : </p>
-        <p class="font-bold text-xl inline-block"><%= chapter.name %></p>
+    <div class="mt-2" onclick="window.location.href='/chapters/<%= chapter.id %>'">
+        <div class="inline-block hover:bg-lime-400 hover:cursor-pointer">
+            <p class="inline-block">Chapter : </p>
+            <p class="font-bold text-xl inline-block"><%= chapter.name %></p>
+        </div>
     </div>
     <hr class="mt-1">
     <h1 class="font-bold text-xl">Pages</h1>
     <hr>
+    
     <%- include('notifications') %>
-    <table class="mx-auto">
-        <tr>
-            <th>
-                P.No
-            </th>
-            <th>
-                Page
-            </th>
-        </tr>
-        <% if (pages.length === 0){ %>
-            <tr>
-                <td colspan="2" class="bg-red-300">No pages are added yet!</td>
-            </tr>
-            <% } %>
-        <% for(var i=0; i < pages.length ;i++){ %> 
-            <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/pages/<%= pages[i].id %>?courseId=<%= course.id %>', '_self');" style="cursor: pointer;">
-                <td>
-                    <%= pages[i].id %>
-                </td>
-                <td>
-                    <%= pages[i].title %>
-                </td>
-            </tr>
-        <% } %>
-    </table>
+    <%- include('pageviewlist') %>
     
 </body>
 </html>

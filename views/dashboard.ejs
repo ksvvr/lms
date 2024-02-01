@@ -15,65 +15,31 @@
         <p class="">( <%= request.user.email %> )</p>
         <hr>
         <h1>Add Course Here...</h1>
-        <form action="/addCourse" method="post">
-            <input class="border-2 ml-2" type="text" placeholder="Course Name" name="name" required>
-            <input class="border-2 ml-2" type="text" placeholder="Description" name="description" required>
-            <button class="bg-lime-300 hover:bg-lime-400 ml-2" type="submit">Add</button>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        </form>
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm mt-2">
+            <form action="/addCourse" method="post">
+                
+                    <div>   
+                        <input class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" type="text" placeholder="Course Name" name="name" required>
+                    </div>
+                    <div>
+                        <input class="mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" type="text" placeholder="Description" name="description" required>
+                    </div>
+                    <div>
+                        <button class="mt-2 bg-lime-300 hover:bg-lime-400 ml-2" type="submit">Add</button>
+                    </div>
+                
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            </form>
+        </div>
+        
         <%- include('notifications') %>
         <hr class="mt-2">
         <h1 class="font-bold">Courses created by you...</h1>
-        <table class="mx-auto">
-            <tr>
-                <th>
-                    Course.No
-                </th>
-                <th>
-                    Course Name
-                </th>
-            </tr>
-            <tr>
-                <% if (courses.length === 0){ %>
-                    <td colspan="2" class="bg-red-300">You haven't created any course yet!</td>
-                <% } else { %>
-                    <td colspan="2">Click on courses to add chapters and pages...</td>
-                <% } %>
-            </tr>
-            <% for(var i=0; i < courses.length ;i++){ %>
-                <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/course/<%= courses[i].id %>', '_self');" style="cursor: pointer;">
-                    <td>
-                      <%= courses[i].id %>
-                    </td>
-                    <td class="group flex items-center">
-                      <%= courses[i].name %>
-                    </td>
-                  </tr>                
-            <% } %> 
-        </table>
+        <%- include('courseslist') %>
         <hr class="mt-2">
         <h1 class="font-bold">Courses from Other Educators</h1>
         <p>Use CTRL+F to find a Course</p>
-        <table class="mx-auto">
-            <tr>
-                <th>
-                    Course.No
-                </th>
-                <th>
-                    Course Name
-                </th>
-            </tr>
-            <% for(var j=0; j < allCourses.length ;j++){ %>
-                <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/course/<%= allCourses[j].id %>', '_self');" style="cursor: pointer;">
-                    <td>
-                      <%= allCourses[j].id %>
-                    </td>
-                    <td class="group flex items-center">
-                      <%= allCourses[j].name %>
-                    </td>
-                  </tr>                
-            <% } %> 
-        </table>
+        <%- include('coursesonlms') %>
         <hr class="mt-2">
 </body>
 

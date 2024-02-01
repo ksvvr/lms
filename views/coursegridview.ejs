@@ -1,0 +1,27 @@
+<div class="listDiv border-2 border-black p-2 mb-2">
+    <ul role="list" class="divide-y divide-gray-100">
+        <% if (chapters && chapters.length !== 0) { %>
+            <% for(var i=0; i < chapters.length ;i++){ %>
+
+            <li class="flex justify-between gap-x-6 py-5 hover:bg-sky-300 hover:cursor-pointer" onclick="window.open('/chapters/<%= chapters[i].id %>?courseId=<%= courseId %>', '_self');">
+                <div class="flex min-w-0 gap-x-4">
+                    <div class="min-w-0 flex-auto">
+                        <p class="text-sm font-semibold leading-6 text-gray-900">
+                            <%= chapters[i].name %>
+                        </p>
+                        <p class="mt-1 truncate text-xs leading-5 text-gray-500">
+                            <%= chapters[i].description %>
+                        </p>
+                    </div>
+                </div>
+                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                   <p class="mt-1 text-xs leading-5 text-gray-500">Created On - <%= (chapters[i].createdAt) %></p>
+                </div>
+            </li>
+
+            <% } %>
+        <% } else { %>
+            <h1 class="font-bold">Chapters are not yet added to this course!</h1>
+        <% } %>
+    </ul>
+</div>

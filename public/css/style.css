@@ -1,11 +1,11 @@
 body {
-    background-color: beige !important;
+    background-color: azure !important;
 }
 
-input, textarea {
+/* input, textarea {
     background-color: bisque;
     border: 1px solid gray;
-}
+} */
 
 hr {
     border: 1px gray;
@@ -19,7 +19,20 @@ hr {
 }
 
 .ql-toolbar.ql-snow {
+    /* background-color: bisque; */
     max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.listDiv {
+    max-width: 80% !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.notification {
+    max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
 }

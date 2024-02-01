@@ -1,0 +1,27 @@
+<div class="listDiv border-2 border-black p-2 mb-2">
+    <ul role="list" class="divide-y divide-gray-100">
+        <% if (courses && courses.length !== 0) { %>
+            <% for(var i=0; i < courses.length ;i++){ %>
+
+            <li class="flex justify-between gap-x-6 py-5 hover:bg-sky-300 hover:cursor-pointer" onclick="window.open('/courses/<%= courses[i].id %>', '_self');">
+                <div class="flex min-w-0 gap-x-4">
+                    <div class="min-w-0 flex-auto">
+                        <p class="text-sm font-semibold leading-6 text-gray-900">
+                            <%= courses[i].name %>
+                        </p>
+                        <p class="mt-1 truncate text-xs leading-5 text-gray-500">
+                            <%= courses[i].description %>
+                        </p>
+                    </div>
+                </div>
+                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                   <p class="mt-1 text-xs leading-5 text-gray-500">Created On - <%= (courses[i].createdAt) %></p>
+                </div>
+            </li>
+
+            <% } %>
+        <% } else { %>
+            <h1 class="font-bold">No Courses Available!</h1>
+        <% } %>
+    </ul>
+</div>

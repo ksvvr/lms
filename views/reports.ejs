@@ -16,7 +16,9 @@
     <%- include('notifications.ejs') %>
 
     <% if (courseReports.length === 0) { %>
-        <p class="bg-red-400 mt-2">You haven't created any courses yet!</p>
+        <div>
+            <p class="inline-block bg-red-400 mt-2">You haven't created any courses yet!</p>
+        </div>
     <% } %>
    
     <% courseReports.forEach(courseReport=> { %>

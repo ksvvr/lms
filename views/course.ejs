@@ -1,57 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course</title>
     <%- include('insideHead') %>
 </head>
+
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
-    <div class="hover:bg-lime-300" onclick="window.location.href='/course/<%= course[0].id %>'">
-        <p class="inline-block">Course : </p>
-        <p class="font-bold text-xl inline-block"><%= course[0].name %></p>
-    </div>
-    <hr class="m-2">
-    <h1 class="font-bold">Add Chapters</h1>
-    <form action="/addChapter" method="post">
-        <input class="border-2 ml-2" type="text" placeholder="Chapter Name" name="name" required>
-        <input class="border-2 ml-2" type="text" placeholder="Description" name="description" required> 
-        <button class="bg-lime-300 hover:bg-lime-400 ml-2" type="submit">Add</button>
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        <input type="hidden" name="courseId" value="<%= courseId %>">
-    </form>
-    <hr class="mt-2"> 
-    <%- include('notifications') %>
-    <p>Click on below chapters to add pages...</p>
-    <table class="mx-auto">
-        <tr>
-            <th>
-                Ch.No
-            </th>
-            <th>
-                Chapter Name
-            </th>
-        </tr>
-        <tr>
-            <% if (chapters.length === 0){ %>
-                <td colspan="2" class="bg-red-300">No chapters are added yet!</td>
-            <% } else { %>
-                <td colspan="2">Click on courses to add chapters and pages...</td>
-            <% } %>
-        </tr>
-        <% for(var i=0; i < chapters.length ;i++){ %>
-            <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/chapter/<%= chapters[i].id %>', '_self');" style="cursor: pointer;">
-                <td>
-                  <%= chapters[i].id %>
-                </td>
-                <td class="group flex items-center">
-                  <%= chapters[i].name %>
-                </td>
-              </tr>
-              
+        <div>
+            <div class="hover:bg-lime-300 inline-block hover:cursor-pointer"
+                onclick="window.location.href='/course/<%= course[0].id %>'">
+                <p class="inline-block">Course : </p>
+                <p class="font-bold text-xl inline-block">
+                    <%= course[0].name %>
+                </p>
+            </div>
+        </div>
+        <hr class="m-2">
+        <h1 class="font-bold">Add Chapters</h1>
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm mt-2">
+            <form action="/addChapter" method="post">
 
-            <% } %>
-    </table>
+                <div>
+                    <input
+                        class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        type="text" placeholder="Chapter Name" name="name" required>
+                </div>
+                <div>
+                    <input
+                        class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        type="text" placeholder="Description" name="description" required>
+                </div>
+                <div>
+                    <button class="mt-2 bg-lime-300 hover:bg-lime-400 ml-2" type="submit">Add</button>
+                </div>
+
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" name="courseId" value="<%= courseId %>">
+            </form>
+        </div>
+        <hr class="mt-2">
+        <%- include('notifications') %>
+            <p>Click on below chapters to add pages...</p>
+            <table class="mx-auto">
+                <tr>
+                    <% if (chapters.length===0){ %>
+                        <td colspan="2" class=""></td>
+                        <% } else { %>
+                            <td colspan="2">Click on courses to add chapters and pages...</td>
+                            <% } %>
+                </tr>
+            </table>
+            <%- include('coursegridview') %>
 </body>
+
 </html>

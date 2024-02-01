@@ -1,11 +1,15 @@
 <% if(messages && messages.error && messages.error.length > 0)  { %>
     <% for(var i=0; i<messages.error.length; i++) { %>
-            <li class="bg-red-400 hover:bg-red-500 mt-2"> <%= messages.error[i] %></li>
+            <div>
+                <li class="bg-red-400 hover:bg-red-500 mt-2 mb-2 notification"> <%= messages.error[i] %></li>
+            </div>
     <% } %>
 <% } %>
 
 <% if (messages && messages.success && messages.success.length > 0) { %>
     <% for (var j = 0; j < messages.success.length; j++) { %>
-        <li class="bg-green-400 hover:bg-green-500 mt-2"><%= messages.success[j] %></li>
+        <div>
+            <li class="bg-green-400 hover:bg-green-500 mt-2 mb-2 notification"><%= messages.success[j] %></li>
+        </div>
     <% } %>
 <% } %>

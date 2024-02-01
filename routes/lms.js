@@ -423,7 +423,8 @@ lms.get('/courses/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     if (request.user.isEducator) {
-      return response.redirect('/dashboard')
+      const parameterr = request.params.id
+      return response.redirect(`/course/${parameterr}`)
     }
     const allChapters = await Chapter.getChapters(request.params.id)
     const chapters = []
@@ -451,7 +452,8 @@ lms.get('/chapters/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
     if (request.user.isEducator) {
-      return response.redirect('/dashboard')
+      const parameterr = request.params.id
+      return response.redirect(`/chapter/${parameterr}`)
     }
     const allPages = await Page.getPages(request.params.id)
     const chapter = await Chapter.findByPk(request.params.id)
@@ -474,9 +476,6 @@ lms.get('/chapters/:id',
 lms.get('/pages/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (request.user.isEducator) {
-      return response.redirect('/dashboard')
-    }
     const page = await Page.getPage(request.params.id)
     const courseId = request.query.courseId
     const course = await Course.findByPk(courseId)

@@ -8,47 +8,26 @@
 </head>
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
-    <div class="hover:bg-lime-300" onclick="window.location.href='/course/<%= course[0].id %>'">
-        <p class="inline-block">Course : </p>
-        <p class="font-bold text-xl inline-block"><%= course[0].name %></p>
+    <div>
+        <div class="hover:bg-lime-300 hover:cursor-pointer inline-block" onclick="window.location.href='/course/<%= course[0].id %>'">
+            <p class="inline-block">Course : </p>
+            <p class="font-bold text-xl inline-block"><%= course[0].name %></p>
+        </div>
     </div>
     <% if(status === null || status === undefined){ %>
-        <p class="mt-2"><a class="bg-lime-300 hover:bg-lime-400" href="/enroll/<%= course[0].id %>">Enroll</a></p>
+        <p class="mt-2"><a class="bg-lime-300 hover:bg-lime-400 hover:cursor-pointer" href="/enroll/<%= course[0].id %>">Enroll</a></p>
     <% } else { %>
         <p class="mt-2">(Enrolled)</p>
         <p class="mt-2"><a href="/course-status/<%= course[0].id %>" class="bg-lime-300 hover:bg-lime-400" target="_self">View Completion Status</a></p>
     <% } %>
-    <h3>Chapters</h3>
-    <p>(Click on below Chapters to view Pages...)</p>
+    
     <hr>
     <%- include('notifications') %>
-    <table class="mx-auto">
-        <tr>
-            <th>
-                Ch.No
-            </th>
-            <th>
-                Chapter Name
-            </th>
-        </tr>
-        <% if (chapters.length === 0){ %>
-            <tr>
-                <td colspan="2" class="bg-red-300">No chapters are added yet!</td>
-            </tr>
-        <% } %>
-        <% for(var i=0; i < chapters.length ;i++){ %>
-            <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/chapters/<%= chapters[i].id %>?courseId=<%= courseId %>', '_self');" style="cursor: pointer;">
-                <td>
-                  <%= chapters[i].id %>
-                </td>
-                <td class="group flex items-center">
-                  <%= chapters[i].name %>
-                </td>
-              </tr>
-              
+    
 
-            <% } %>
-    </table>
+    <h1 class="mt-2 mb-2 font-bold">Chapters</h1>
+    <p>(Click on below Chapters to view Pages...)</p>
+    <%- include('coursegridview') %>
     
 </body>
 </html>

@@ -11,12 +11,16 @@
     <div class="mt-1">
         <p class="inline-block">Course : </p>
         <p class="font-bold text-xl inline-block"><%= course.name %></p>
-        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/course/<%= course.id %>'">Go Back to Chapters</p>
+        <div>
+            <p class="inline-block bg-lime-300 hover:bg-lime-400 mt-2 hover:cursor-pointer" onclick="window.location.href='/course/<%= course.id %>'">Go Back to Chapters</p>
+        </div>
     </div>
     <div class="mt-2">
         <p class="inline-block">Chapter : </p>
         <p class="font-bold text-xl inline-block"><%= chapter.name %></p>
-        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/chapter/<%= chapter.id %>'">Go Back to Pages</p>
+        <div>
+            <p class="inline-block bg-lime-300 hover:bg-lime-400 mt-2 hover:cursor-pointer" onclick="window.location.href='/chapter/<%= chapter.id %>'">Go Back to Pages</p>
+        </div>
     </div>
     <hr class="mb-1 mt-3">
     <h1 class="font-bold text-xl"><%= page.title %></h1>
@@ -31,7 +35,9 @@
             <button type="submit" class="bg-lime-300 hover:bg-lime-400">Mark As Complete</button>
         </form>
     <% } else { %>
-        <p class="mb-2">(Marked Complete)</p>
+        <div>
+            <p class="inline-block mb-2 bg-sky-200">(Marked Complete)</p>
+        </div>
     <% } %>
     
 </body>

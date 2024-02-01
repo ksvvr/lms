@@ -8,34 +8,9 @@
 </head>
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
-    <br>
     <%- include('notifications.ejs') %>
-    <br>
     <h3 class="font-bold">Courses You are Enrolled in...</h3>
     <p>(Click on below courses to view chapters!)</p>
-    <br>
-    <table class="mx-auto">
-        <tr>
-            <th>
-                Course.No
-            </th>
-            <th>
-                Course Name
-            </th>
-        </tr>
-        <% for(var i=0; i < courses.length ;i++){ %>
-            <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/courses/<%= courses[i].id %>', '_self');" style="cursor: pointer;">
-                <td>
-                  <%= courses[i].id %>
-                </td>
-                <td class="group flex items-center">
-                  <%= courses[i].name %>
-                </td>
-              </tr>           
-        <% } %>
-        <% if (courses.length === 0){ %>
-            <p class="bg-red-300">You haven't enrolled in any course yet! Find Courses in Dashboard...</p>
-        <% } %>
-    </table>
+    <%- include('courseslist') %>
 </body>
 </html>

@@ -8,10 +8,14 @@
     <%- include('insideHead') %>
 </head>
 <body class="text-center">
-    <h1 class="text-3xl font-bold mt-4">Welcome to Learning Management System</h1><br>
-    <a class="bg-lime-400 hover:bg-lime-500 rounded" href="/login">Login</a><br/><br>
-    <a class="bg-lime-400 hover:bg-lime-500 rounded" href="/signup">Sign up</a>
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <h1 class="text-3xl font-bold mt-4 hover:cursor-pointer" onclick="window.location.href='/'">Learning Management System</h1><br>
+    <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
+        <a class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" href="/login">Login</a><br/><br>
+        <a class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" href="/signup">Sign up</a>
+    </div>
     <%- include('notifications') %>
+    </div>
     <%- include('footer') %>
 </body>
 </html>

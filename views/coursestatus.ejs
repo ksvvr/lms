@@ -17,9 +17,13 @@
     <div>
         <p class="inline-block">Course : </p>
         <p class="font-bold text-3xl inline-block"><%= course.name %></p>
-        <p class="block bg-lime-300 hover:bg-lime-400 mt-2" onclick="window.location.href='/course/<%= course.id %>'">Go Back to Course</p>
+        <div>
+            <p class="inline-block bg-lime-300 hover:bg-lime-400 mt-2 hover:cursor-pointer" onclick="window.location.href='/course/<%= course.id %>'">Go Back to Course</p>
+        </div>
     </div>
-    <p class="font-bold bg-sky-300 mt-2">Completion Percentage: <%= completionPercentage.toFixed(2) %>%</p>
+    <div>
+        <p class="font-bold bg-sky-300 mt-2 inline-block">Completion Percentage: <%= completionPercentage.toFixed(2) %>%</p>
+    </div>
     <% course.Chapters.forEach(chapter=> { %>
         <h3 class="font-bold">
             <%= chapter.name %>

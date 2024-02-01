@@ -18,26 +18,7 @@
     <p>Click on any course below to view details...</p>
     <p>Use CTRL+F to find a Course</p>
     <%- include('notifications') %>
-    <table class="mx-auto">
-        <tr>
-            <th>
-                Course.No
-            </th>
-            <th>
-                Course Name
-            </th>
-        </tr>
-        <% for(var i=0; i < courses.length ;i++){ %>
-            <tr class="bg-sky-300 border hover:bg-sky-400" onclick="window.open('/courses/<%= courses[i].id %>', '_self');" style="cursor: pointer;">
-                <td>
-                  <%= courses[i].id %>
-                </td>
-                <td>
-                  <%= courses[i].name %>
-                </td>
-              </tr>           
-        <% } %>
-    </table>
+    <%- include('courseslist') %>
     <hr class="mt-2">
 </body>
  
