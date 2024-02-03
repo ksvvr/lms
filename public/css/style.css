@@ -12,15 +12,16 @@ hr {
 }
 
 #editor {
-    max-width: 80% !important;
+    /* max-width: 80% !important; */
     margin-left: auto !important;
     margin-right: auto !important;
-    background-color: bisque !important;
+    background-color: white !important;
 }
 
 .ql-toolbar.ql-snow {
-    /* background-color: bisque; */
-    max-width: 80%;
+    background-color: white;
+    /* max-width: 80%; */
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -33,6 +34,13 @@ hr {
 
 .notification {
     max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#addPageDiv {
+    max-width: 80%;
+    text-align: center;
     margin-left: auto;
     margin-right: auto;
 }

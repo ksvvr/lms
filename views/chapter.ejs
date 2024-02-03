@@ -32,23 +32,25 @@
         
         <hr class="mt-2 mb-2">
         <h1 class="font-bold">Add Pages</h1>
-        <div class="flex min-h-full flex-col justify-center px-6 py-2 lg:px-8">
-            <form action="/addPage" method="post" class="text-center">
-                <div>
-                    <input class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" type="text" placeholder="Page Title, min 5 characters" name="title" required>
-                </div>
-                <div class="mt-2">
-                    <div id="editor" class="mt-2">
-                        <p>Enter Page Content Here,<b>min 30 characters...</b>, Click Enter Here to Expand...</p>
+        <div id="addPageDiv">
+            <div class="flex min-h-full flex-col justify-center px-6 py-2 lg:px-8">
+                <form action="/addPage" method="post" class="text-center">
+                    <div>
+                        <input class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" type="text" placeholder="Page Title, min 5 characters" name="title" required>
                     </div>
-                    <input type="hidden" id="contentInput" name="content">
-                </div>
-                <div>
-                    <button class="bg-lime-300 ml-2 hover:bg-lime-400 mt-2" type="submit">Add</button>
-                </div>
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <input type="hidden" name="chapterId" value="<%= chapterId %>">
-            </form>
+                    <div class="mt-2">
+                        <div id="editor" class="mt-2">
+                            <p>Enter Page Content Here,<b>min 30 characters...</b>, Click Enter Here to Expand...</p>
+                        </div>
+                        <input type="hidden" id="contentInput" name="content">
+                    </div>
+                    <div>
+                        <button class="bg-lime-300 ml-2 hover:bg-lime-400 mt-2" type="submit">Add</button>
+                    </div>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="chapterId" value="<%= chapterId %>">
+                </form>
+            </div>
         </div>
         <%- include('notifications') %>
             <hr class="mt-2">
