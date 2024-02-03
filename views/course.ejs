@@ -10,9 +10,14 @@
 
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
+    <div class="mb-2">
+        <p>
+            <a href="/dashboard" class="text-blue-500 underline">Dashboard</a><span> >> </span>
+            <span> Course </span>
+        </p>
+    </div>
         <div>
-            <div class="hover:bg-lime-300 inline-block hover:cursor-pointer"
-                onclick="window.location.href='/course/<%= course[0].id %>'">
+            <div class="inline-block">
                 <p class="inline-block">Course : </p>
                 <p class="font-bold text-xl inline-block">
                     <%= course[0].name %>

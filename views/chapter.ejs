@@ -11,6 +11,13 @@
 
 <body class="text-center">
     <%- include('navbar.ejs', { request: request }) %>
+    <div class="mb-2">
+        <p>
+            <a href="/dashboard" class="text-blue-500 underline">Dashboard</a><span> >> </span>
+            <a href="/course/<%= course.id %>" class="text-blue-500 underline">Course</a><span> >> </span>
+            <span>Chapter</span>
+        </p>
+    </div>
         <div>
             <p class="inline-block">Course : </p>
             <p class="font-bold text-xl inline-block">
@@ -18,15 +25,11 @@
             </p>
         </div>
         <div>
-            <div class="hover:bg-lime-400 mt-2 inline-block hover:cursor-pointer" onclick="window.location.href='/chapter/<%= chapter.id %>'">
+            <div class="mt-2 inline-block">
                 <p class="inline-block">Chapter : </p>
                 <p class="font-bold text-xl inline-block">
                     <%= chapter.name %>
                 </p>
-            </div>
-            <div>
-                <p class="inline-block bg-lime-300 hover:bg-lime-400 mt-2 hover:cursor-pointer" onclick="window.location.href='/course/<%= course.id %>'">Go
-                    Back to Chapters</p>
             </div>
         </div>
         
