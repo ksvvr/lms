@@ -674,4 +674,8 @@ lms.get('/course-status/:id',
     }
   })
 
+lms.get('*', (req, res) => {
+  return res.render('error')
+})
+
 module.exports = lms
