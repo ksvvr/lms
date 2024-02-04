@@ -102,15 +102,13 @@ lms.get('/signup', function (request, response) {
 })
 
 lms.post('/users', async function (request, response) {
-  const hashedPwd = await bcrypt.hash(request.body.password, saltRounds)
-  // console.log(hashedPwd)
-  let isEducator = false
-
-  if (request.body.isEducator === 'true') {
-    isEducator = true
-  }
-
   try {
+    const hashedPwd = await bcrypt.hash(request.body.password, saltRounds)
+    let isEducator = false
+
+    if (request.body.isEducator === 'true') {
+      isEducator = true
+    }
     const pas = request.body.password
     if (pas.length < 8) {
       request.flash('error', 'Password Length MIN 8')
@@ -135,12 +133,12 @@ lms.post('/users', async function (request, response) {
       if (err) {
         console.log(err)
       }
-      response.redirect('/dashboard')
+      return response.redirect('/dashboard')
     })
   } catch (error) {
     request.flash('error', 'FirstName, E-Mail and Password(min len 8) cannot be empty!')
     console.log(error)
-    response.redirect('/signup')
+    return response.redirect('/signup')
   }
 })
 
@@ -168,14 +166,15 @@ lms.post(
   '/addChapter',
   connectEnsureLogin.ensureLoggedIn(),
   async function (request, response) {
-    const addingEducator = request.user.id
-    const courseId = request.body.courseId
-    const course = await Course.getCourse(courseId)
-    if (course[0].userId !== addingEducator) {
-      request.flash('error', 'You are not Authorized to Add Chapters!')
-      return response.redirect(`/course/${courseId}`)
-    }
+    let courseId
     try {
+      const addingEducator = request.user.id
+      courseId = request.body.courseId
+      const course = await Course.getCourse(courseId)
+      if (course[0].userId !== addingEducator) {
+        request.flash('error', 'You are not Authorized to Add Chapters!')
+        return response.redirect(`/course/${courseId}`)
+      }
       await Chapter.addChapter({
         name: request.body.name,
         description: request.body.description,
@@ -195,8 +194,9 @@ lms.post(
   '/addPage',
   connectEnsureLogin.ensureLoggedIn(),
   async function (request, response) {
-    const chapterId = request.body.chapterId
+    let chapterId
     try {
+      chapterId = request.body.chapterId
       const courseId = (await Chapter.findByPk(chapterId)).courseId
       const courseOwner = (await Course.findByPk(courseId)).userId
       if (courseOwner !== request.user.id) {
@@ -236,35 +236,40 @@ lms.get(
   '/educator-dashboard',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (!request.user.isEducator) {
-      return response.redirect('/dashboard')
-    }
-    const allCoursesOnLMS = await Course.getAllCourses()
-    const allCourseOnLms = []
-    allCoursesOnLMS.forEach(i => {
-      if (i.userId !== request.user.id) {
-        allCourseOnLms.push(i)
+    try {
+      if (!request.user.isEducator) {
+        return response.redirect('/dashboard')
       }
-    })
-    const allCourses = await Course.getCourses(request.user.id)
-    const courses = []
-    const userDetail = request.user.firstName + ' ' + request.user.lastName
+      const allCoursesOnLMS = await Course.getAllCourses()
+      const allCourseOnLms = []
+      allCoursesOnLMS.forEach(i => {
+        if (i.userId !== request.user.id) {
+          allCourseOnLms.push(i)
+        }
+      })
+      const allCourses = await Course.getCourses(request.user.id)
+      const courses = []
+      const userDetail = request.user.firstName + ' ' + request.user.lastName
 
-    await allCourses.forEach((i) => {
-      courses.push(i)
-    })
-    if (request.accepts('html')) {
-      response.render('dashboard.ejs', {
-        courses,
-        request,
-        allCourses: allCourseOnLms,
-        userDetail,
-        csrfToken: request.csrfToken()
+      await allCourses.forEach((i) => {
+        courses.push(i)
       })
-    } else {
-      response.json({
-        courses
-      })
+      if (request.accepts('html')) {
+        response.render('dashboard.ejs', {
+          courses,
+          request,
+          allCourses: allCourseOnLms,
+          userDetail,
+          csrfToken: request.csrfToken()
+        })
+      } else {
+        response.json({
+          courses
+        })
+      }
+    } catch (error) {
+      request.flash('error', 'Unable to access educator dashboard at present!')
+      return response.redirect('/error')
     }
   }
 )
@@ -273,27 +278,32 @@ lms.get(
   '/student-dashboard',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (request.user.isEducator) {
-      return response.redirect('/dashboard')
-    }
-    const allCourses = await Course.getAllCourses()
-    const courses = []
-    const userDetail = request.user.firstName + ' ' + request.user.lastName
+    try {
+      if (request.user.isEducator) {
+        return response.redirect('/dashboard')
+      }
+      const allCourses = await Course.getAllCourses()
+      const courses = []
+      const userDetail = request.user.firstName + ' ' + request.user.lastName
 
-    await allCourses.forEach((i) => {
-      courses.push(i)
-    })
-    if (request.accepts('html')) {
-      response.render('studentdashboard.ejs', {
-        courses,
-        request,
-        userDetail,
-        csrfToken: request.csrfToken()
+      await allCourses.forEach((i) => {
+        courses.push(i)
       })
-    } else {
-      response.json({
-        courses
-      })
+      if (request.accepts('html')) {
+        response.render('studentdashboard.ejs', {
+          courses,
+          request,
+          userDetail,
+          csrfToken: request.csrfToken()
+        })
+      } else {
+        response.json({
+          courses
+        })
+      }
+    } catch (error) {
+      request.flash('error', 'Unable to access student dashboard at present!')
+      return response.redirect('/error')
     }
   }
 )
@@ -315,8 +325,7 @@ lms.post(
     failureFlash: true
   }),
   function (request, response) {
-    // console.log(request.user)
-    response.redirect('/dashboard')
+    return response.redirect('/dashboard')
   }
 )
 
@@ -329,189 +338,243 @@ lms.get('/login', (request, response) => {
 lms.get('/course/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (!request.user.isEducator) {
-      const parameterr = request.params.id
-      return response.redirect(`/courses/${parameterr}`)
+    try {
+      if (!request.user.isEducator) {
+        const parameterr = request.params.id
+        return response.redirect(`/courses/${parameterr}`)
+      }
+      const course = await Course.getCourse(request.params.id)
+      if (!course.length) {
+        request.flash('error', 'Course Not Found!')
+        return response.redirect('/error')
+      }
+      const allChapters = await Chapter.getChapters(request.params.id)
+      const chapters = []
+      await allChapters.forEach((i) => {
+        chapters.push(i)
+      })
+      response.render('course', {
+        chapters,
+        request,
+        course,
+        courseId: request.params.id,
+        csrfToken: request.csrfToken()
+      })
+    } catch (error) {
+      request.flash('error', 'Course Not Found!')
+      return response.redirect('/error')
     }
-    const course = await Course.getCourse(request.params.id)
-    const allChapters = await Chapter.getChapters(request.params.id)
-    const chapters = []
-    await allChapters.forEach((i) => {
-      chapters.push(i)
-    })
-    response.render('course', {
-      chapters,
-      request,
-      course,
-      courseId: request.params.id,
-      csrfToken: request.csrfToken()
-    })
   })
 
 lms.get('/chapter/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (!request.user.isEducator) {
-      const parameterr = request.params.id
-      return response.redirect(`/chapters/${parameterr}`)
+    try {
+      if (!request.user.isEducator) {
+        const parameterr = request.params.id
+        return response.redirect(`/chapters/${parameterr}`)
+      }
+      const chapter = await Chapter.findByPk(request.params.id)
+      if (!chapter) {
+        request.flash('error', 'Chapter Not Found!')
+        return response.redirect('/error')
+      }
+      const course = await Course.findByPk(chapter.courseId)
+      const allPages = await Page.getPages(request.params.id)
+      const pages = []
+      await allPages.forEach((i) => {
+        pages.push(i)
+      })
+      response.render('chapter', {
+        pages,
+        chapter,
+        course,
+        request,
+        chapterId: request.params.id,
+        csrfToken: request.csrfToken()
+      })
+    } catch (error) {
+      request.flash('error', 'Error')
+      return response.redirect('/error')
     }
-    const chapter = await Chapter.findByPk(request.params.id)
-    const course = await Course.findByPk(chapter.courseId)
-    const allPages = await Page.getPages(request.params.id)
-    const pages = []
-    await allPages.forEach((i) => {
-      pages.push(i)
-    })
-    response.render('chapter', {
-      pages,
-      chapter,
-      course,
-      request,
-      chapterId: request.params.id,
-      csrfToken: request.csrfToken()
-    })
   })
 
 lms.get('/enroll/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (request.user.isEducator) {
-      return response.redirect('/dashboard')
-    }
-    const user = request.user.id
-    const course = request.params.id
-    if (await Enrollment.findOne({
-      where: {
-        userId: user,
-        courseId: course
-      }
-    }) != null) {
-      request.flash('error', 'Already enrolled in the course!')
-      return response.redirect('/mycourses')
-    }
     try {
-      await Enrollment.newEnroll({
-        userId: user,
-        courseId: course
-      })
-      request.flash('success', 'Successfully Enrolled in the Course!')
-      return response.redirect('/mycourses')
+      if (request.user.isEducator) {
+        return response.redirect('/dashboard')
+      }
+      const user = request.user.id
+      const course = request.params.id
+      if (await Enrollment.findOne({
+        where: {
+          userId: user,
+          courseId: course
+        }
+      }) != null) {
+        request.flash('error', 'Already enrolled in the course!')
+        return response.redirect('/mycourses')
+      }
+      try {
+        await Enrollment.newEnroll({
+          userId: user,
+          courseId: course
+        })
+        request.flash('success', 'Successfully Enrolled in the Course!')
+        return response.redirect('/mycourses')
+      } catch (error) {
+        console.log(error)
+        request.flash('error', 'Cannot Enroll in the Course, Try Later...')
+        return response.redirect('/mycourses')
+      }
     } catch (error) {
-      console.log(error)
       request.flash('error', 'Cannot Enroll in the Course, Try Later...')
-      return response.redirect('/mycourses')
+      return response.redirect('/error')
     }
   })
 
 lms.get('/mycourses',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (request.user.isEducator) {
-      return response.redirect('/dashboard')
+    try {
+      if (request.user.isEducator) {
+        return response.redirect('/dashboard')
+      }
+      const coursess = Object.values(await Enrollment.getCourses(request.user.id))
+      const courses = []
+      for (const enrollment of coursess) {
+        console.log(enrollment.dataValues.courseId)
+        const course = await Course.findByPk(enrollment.dataValues.courseId)
+        courses.push(course)
+      }
+      return response.render('mycourses', {
+        courses,
+        request,
+        csrfToken: request.csrfToken()
+      })
+    } catch (error) {
+      request.flash('error', 'Error')
+      return response.redirect('/error')
     }
-    const coursess = Object.values(await Enrollment.getCourses(request.user.id))
-    const courses = []
-    for (const enrollment of coursess) {
-      console.log(enrollment.dataValues.courseId)
-      const course = await Course.findByPk(enrollment.dataValues.courseId)
-      courses.push(course)
-    }
-    // console.log(courses)
-    return response.render('mycourses', {
-      courses,
-      request,
-      csrfToken: request.csrfToken()
-    })
   })
 
 lms.get('/courses/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (request.user.isEducator) {
-      const parameterr = request.params.id
-      return response.redirect(`/course/${parameterr}`)
-    }
-    const allChapters = await Chapter.getChapters(request.params.id)
-    const chapters = []
-    const course = await Course.getCourse(request.params.id)
-    const status = await Enrollment.findOne({
-      where: {
-        userId: request.user.id,
-        courseId: request.params.id
+    try {
+      if (request.user.isEducator) {
+        const parameterr = request.params.id
+        return response.redirect(`/course/${parameterr}`)
       }
-    })
-    await allChapters.forEach((i) => {
-      chapters.push(i)
-    })
-    response.render('courses', {
-      course,
-      status,
-      request,
-      chapters,
-      courseId: request.params.id,
-      csrfToken: request.csrfToken()
-    })
+      const allChapters = await Chapter.getChapters(request.params.id)
+      const chapters = []
+      const course = await Course.getCourse(request.params.id)
+      const status = await Enrollment.findOne({
+        where: {
+          userId: request.user.id,
+          courseId: request.params.id
+        }
+      })
+      await allChapters.forEach((i) => {
+        chapters.push(i)
+      })
+      if (!course.length) {
+        request.flash('error', 'Course Not Found!')
+        return response.redirect('/error')
+      }
+      response.render('courses', {
+        course,
+        status,
+        request,
+        chapters,
+        courseId: request.params.id,
+        csrfToken: request.csrfToken()
+      })
+    } catch (error) {
+      request.flash('error', 'Error')
+      return response.redirect('/error')
+    }
   })
 
 lms.get('/chapters/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    if (request.user.isEducator) {
-      const parameterr = request.params.id
-      return response.redirect(`/chapter/${parameterr}`)
+    try {
+      if (request.user.isEducator) {
+        const parameterr = request.params.id
+        return response.redirect(`/chapter/${parameterr}`)
+      }
+      const allPages = await Page.getPages(request.params.id)
+      const chapter = await Chapter.findByPk(request.params.id)
+      const course = await Course.findByPk(chapter.courseId)
+      const pages = []
+      await allPages.forEach((i) => {
+        pages.push(i)
+      })
+      if (!chapter) {
+        request.flash('error', 'Chapter Not Found!')
+        return response.redirect('/error')
+      }
+      response.render('chapters', {
+        pages,
+        request,
+        chapter,
+        course,
+        courseId: request.query.courseId,
+        chapterId: request.params.id,
+        csrfToken: request.csrfToken()
+      })
+    } catch (error) {
+      request.flash('error', 'Error')
+      return response.redirect('/error')
     }
-    const allPages = await Page.getPages(request.params.id)
-    const chapter = await Chapter.findByPk(request.params.id)
-    const course = await Course.findByPk(chapter.courseId)
-    const pages = []
-    await allPages.forEach((i) => {
-      pages.push(i)
-    })
-    response.render('chapters', {
-      pages,
-      request,
-      chapter,
-      course,
-      courseId: request.query.courseId,
-      chapterId: request.params.id,
-      csrfToken: request.csrfToken()
-    })
   })
 
 lms.get('/pages/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    const page = await Page.getPage(request.params.id)
-    const courseId = request.query.courseId
-    const course = await Course.findByPk(courseId)
-    const chapter = await Chapter.findByPk(page.chapterId)
-    if (await Enrollment.findOne({
-      where: {
-        userId: request.user.id,
-        courseId
+    try {
+      const page = await Page.getPage(request.params.id)
+      if (!page) {
+        request.flash('error', 'Page Not Found!')
+        return response.redirect('/error')
       }
-    }) !== null) {
-      let isComplete = false
-      if (await Completion.findOne({
+      const courseId = request.query.courseId
+      const course = await Course.findByPk(courseId)
+      const chapter = await Chapter.findByPk(page.chapterId)
+      if (await Enrollment.findOne({
         where: {
           userId: request.user.id,
-          pageId: page.id
+          courseId
         }
       }) !== null) {
-        isComplete = true
+        let isComplete = false
+        if (await Completion.findOne({
+          where: {
+            userId: request.user.id,
+            pageId: page.id
+          }
+        }) !== null) {
+          isComplete = true
+        }
+        return response.render('page', {
+          page,
+          request,
+          course,
+          chapter,
+          courseId,
+          isComplete,
+          csrfToken: request.csrfToken()
+        })
+      } else {
+        request.flash('error', 'You have to enroll in the course to view the pages! Go back to course and Enroll...')
+        return response.redirect(`/chapters/${chapter.id}?courseId=${course.id}`)
       }
-      return response.render('page', {
-        page,
-        request,
-        course,
-        chapter,
-        courseId,
-        isComplete,
-        csrfToken: request.csrfToken()
-      })
-    } else {
-      request.flash('error', 'You have to enroll in the course to view the pages! Go back to course and Enroll...')
-      return response.redirect(`/chapters/${chapter.id}?courseId=${course.id}`)
+    } catch (error) {
+      request.flash('error', 'Error')
+      return response.redirect('/error')
     }
   }
 )
@@ -519,13 +582,12 @@ lms.get('/pages/:id',
 lms.post('/markAsComplete/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (request, response) => {
-    const courseId = request.body.courseId
-    const pageId = request.body.pageId
-    if (request.user.isEducator) {
-      return response.redirect('/dashboard')
-    }
     try {
+      const courseId = request.body.courseId
       const pageId = request.body.pageId
+      if (request.user.isEducator) {
+        return response.redirect('/dashboard')
+      }
       const userId = request.user.id
       const enrollment = await Enrollment.findOne({
         where: {
@@ -594,7 +656,7 @@ lms.post('/changepassword',
     } catch (error) {
       console.error('Error changing password:', error)
       req.flash('error', 'Error changing password, try again later!')
-      res.redirect('/changepassword')
+      return res.redirect('/changepassword')
     }
   })
 
@@ -603,7 +665,7 @@ lms.get('/educator/reports',
   async (req, res) => {
     try {
       if (!req.user.isEducator) {
-        res.redirect('/dashboard')
+        return res.redirect('/dashboard')
       }
       const userId = req.user.id
       const courses = await Course.findAll({
@@ -627,17 +689,18 @@ lms.get('/educator/reports',
       res.render('reports', { user: req.user, courseReports, request: req })
     } catch (error) {
       console.error('Error retrieving educator reports:', error)
-      res.status(500).send('<script src="https://cdn.tailwindcss.com"></script>Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+      req.flash('error', 'Server Error')
+      return res.redirect('/error')
     }
   })
 
 lms.get('/course-status/:id',
   connectEnsureLogin.ensureLoggedIn(),
   async (req, res) => {
-    if (req.user.isEducator) {
-      res.redirect('/dashboard')
-    }
     try {
+      if (req.user.isEducator) {
+        return res.redirect('/dashboard')
+      }
       const courseId = req.params.id
       const userId = req.user.id
       const course = await Course.findByPk(courseId, {
@@ -660,7 +723,8 @@ lms.get('/course-status/:id',
       })
 
       if (!course) {
-        return res.status(404).send('<script src="https://cdn.tailwindcss.com"></script>Course not found, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+        req.flash('error', 'You are not enrolled in the course!')
+        return res.redirect('/error')
       }
 
       const totalPages = course.Chapters.reduce((acc, chapter) => acc + chapter.Pages.length, 0)
@@ -670,9 +734,14 @@ lms.get('/course-status/:id',
       res.render('coursestatus', { user: req.user, course, completionPercentage, request: req })
     } catch (error) {
       console.error('Error retrieving course information:', error)
-      res.status(500).send('<script src="https://cdn.tailwindcss.com"></script>Internal Server Error, <p class="mt-2"><a href="javascript:void(0);" onclick="window.close();" class="bg-lime-300">Close Tab</a></p>')
+      req.flash('error', 'Error')
+      return res.redirect('/error')
     }
   })
+
+lms.get('/error', (req, res) => {
+  return res.render('error')
+})
 
 lms.get('*', (req, res) => {
   return res.render('error')
