@@ -81,6 +81,11 @@ passport.deserializeUser((id, done) => {
     })
 })
 
+lms.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store')
+  next()
+})
+
 lms.get('/', async (request, response) => {
   if (request.isAuthenticated()) {
     return response.redirect('/dashboard')
