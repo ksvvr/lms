@@ -36,6 +36,6 @@ Users can change their passwords.
 Live Application [Link - Render](https://ksvvr-lms.onrender.com)
 
 ## Video Demo of Project
-Video Demo [Link - Loom](https://www.loom.com/share/640a57e532b140a896499d1860a08070?sid=49749870-e4b6-4ebf-ab9b-6a86f6aa42b0)
+Video Demo [Link - Loom](https://www.loom.com/share/532a2d3a73614add8c1c07c8d1cc300a?sid=c95e88ab-03de-4ce4-9b5a-3e81b7d9eb97)
 
-Video Demo [Link - Youtube](https://youtu.be/MsYJWbIG34k)
+Video Demo [Link - Youtube](https://youtu.be/qtrqwtNbajA)
