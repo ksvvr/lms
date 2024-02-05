@@ -25,6 +25,7 @@
             </div>
         </div>
         <hr class="m-2">
+        <% if (request.user.id === course[0].userId) { %>
         <h1 class="font-bold">Add Chapters</h1>
         <div class="sm:mx-auto sm:w-full sm:max-w-sm mt-2">
             <form action="/addChapter" method="post">
@@ -47,9 +48,10 @@
                 <input type="hidden" name="courseId" value="<%= courseId %>">
             </form>
         </div>
+        <% } %>
         <hr class="mt-2">
         <%- include('notifications') %>
-            <p>Click on below chapters to add pages...</p>
+            <p>Click on below chapters to view pages...</p>
             <table class="mx-auto">
                 <tr>
                     <% if (chapters.length===0){ %>
